@@ -1,4 +1,14 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(pnpm gen:component *)",
+      "Bash(pnpm check)",
+      "Bash(pnpm build)",
+      "Bash(pnpm exec vp check *)",
+      "Bash(pnpm exec vp lint *)",
+      "Bash(pnpm exec vp fmt *)"
+    ]
+  },
   "hooks": {
     "PostToolUse": [
       {
