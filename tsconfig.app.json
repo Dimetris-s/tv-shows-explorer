@@ -16,7 +16,8 @@
     "jsx": "react-jsx",
 
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "cn": ["./src/lib/cn.ts"]
     },
 
     "strict": true,

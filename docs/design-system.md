@@ -32,6 +32,21 @@
 Заголовки — Space Grotesk (`font-heading`, подключён к `h1`–`h3` по умолчанию), текст и интерфейс — Inter (`font-sans`).
 В Space Grotesk нет кириллицы: русские заголовки набираются Inter, латиница — Space Grotesk.
 
+Текст в приложении пишется через компонент `Typography`, а не классами напрямую. Он выбирает семантический тег, шрифт и цвет:
+
+```tsx
+<Typography variant="h1">Результаты поиска</Typography>
+<Typography variant="title" as="h2">Murder, She Wrote</Typography>
+<Typography variant="small" tone="muted">1984 · CBS · Drama, Crime</Typography>
+<Typography variant="overline" tone="muted">Результатов: 10</Typography>
+```
+
+- `variant`: `display`, `h1`, `h2`, `title`, `body` (по умолчанию), `small`, `overline`.
+- `tone`: `default`, `muted`, `subtle`, `primary`, `danger`.
+- `as`: другой тег, если семантика страницы требует (по умолчанию `display`/`h1` → `h1`, `h2` → `h2`, `title` → `h3`, `body`/`small` → `p`, `overline` → `span`).
+
+Классы шкалы — нижний уровень, на котором построен `Typography`:
+
 | Класс           | Размер / начертание                            |
 | --------------- | ---------------------------------------------- |
 | `text-display`  | 48 / 700, −0.02em                              |
@@ -56,16 +71,19 @@
 
 ## Компоненты (`src/components/`)
 
-| Компонент  | Макет                                  | API                                                                    |
-| ---------- | -------------------------------------- | ---------------------------------------------------------------------- |
-| `Button`   | primary / secondary / ghost / disabled | `variant`: `default` (primary), `outline` (secondary), `ghost`; `size` |
-| `Badge`    | рейтинг, «В эфире»                     | `variant`: `rating`, `rating-empty`, `soft` + варианты shadcn          |
-| `Skeleton` | скелетон карточки                      | `className` задаёт размеры                                             |
-| `Chip`     | чипс жанра: active / default / hover   | `isActive`, `onClick`, `count`                                         |
+| Компонент    | Макет                                  | API                                                                    |
+| ------------ | -------------------------------------- | ---------------------------------------------------------------------- |
+| `Button`     | primary / secondary / ghost / disabled | `variant`: `default` (primary), `outline` (secondary), `ghost`; `size` |
+| `Badge`      | рейтинг, «В эфире»                     | `variant`: `rating`, `rating-empty`, `soft` + варианты shadcn          |
+| `Skeleton`   | скелетон карточки                      | `className` задаёт размеры                                             |
+| `Chip`       | чипс жанра: active / default / hover   | `isActive`, `onClick`, `count`                                         |
+| `Typography` | шкала типографики                      | `variant`, `tone`, `as`, `className`                                   |
 
 Здесь только UI kit. Пагинация, поле поиска, карточка сериала и шапка из макета — компоненты экрана поиска: они живут в его папке и появятся вместе с ним.
 
 ## Как менять
+
+- Новый размер шрифта — в `@theme` в `src/index.css` и в список `font-size` в `src/lib/cn.ts`. Иначе `cn` примет класс за цвет и выбросит его при слиянии с `text-<цвет>`.
 
 - Цвет или радиус — в `src/index.css`, во всех компонентах он поменяется сам.
 - Вид shadcn-примитива — в `src/components/ui/*` (вендорный код, правим только под дизайн-систему).

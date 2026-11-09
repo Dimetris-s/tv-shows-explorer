@@ -36,7 +36,7 @@
 
 ## Как работать
 
-- **Вёрстка** — только токены дизайн-системы (`bg-primary`, `text-muted-foreground`, `text-h1`, `rounded-md`), без произвольных цветов и размеров. Таблица токенов и компонентов: `docs/design-system.md`. Сначала ищи готовый компонент в `src/components/`.
+- **Вёрстка** — только токены дизайн-системы (`bg-primary`, `text-muted-foreground`, `text-h1`, `rounded-md`), без произвольных цветов и размеров. Текст — через компонент `Typography`. Таблица токенов и компонентов: `docs/design-system.md`. Сначала ищи готовый компонент в `src/components/`.
 - **Новый компонент** — только через генератор, не вручную. Перед созданием вызови скилл `create-component`.
 - **Файл превысил 120 строк** или компонент разросся — вызови скилл `decompose-component`.
 - **Новый shadcn-примитив**: `pnpm dlx shadcn@latest add <name>`, затем обёртка `pnpm gen:component src/components/<Name> --wrap <name>`.
