@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import { defineRule } from 'vite-plus/lint/plugins';
 
+import { barrelFix, vendorUiFix } from '../importFixes.ts';
 import {
   componentNameOf,
   isComponentDir,
@@ -15,6 +16,7 @@ export const encapsulatedImports = defineRule({
   meta: {
     type: 'problem',
     docs: { description: 'Component internals are imported only through the barrel.' },
+    fixable: 'code',
     messages: {
       barrel:
         'Импорт мимо barrel: `{{specifier}}`. Снаружи папки компонента `{{name}}` импортируй саму папку (её `index.ts`).',
@@ -34,7 +36,13 @@ export const encapsulatedImports = defineRule({
         const uiDir = path.join(componentsDir, 'ui');
         if (isInside(resolved, uiDir)) {
           if (!isInside(filename, componentsDir)) {
-            context.report({ node, messageId: 'vendorUi', data: { specifier } });
+            const fix = vendorUiFix(node, componentsDir, context.sourceCode);
+            context.report({
+              node,
+              messageId: 'vendorUi',
+              data: { specifier },
+              ...(fix && { fix }),
+            });
           }
           return;
         }
@@ -47,7 +55,13 @@ export const encapsulatedImports = defineRule({
         if (isInside(filename, ownerDir)) return;
 
         const name = componentNameOf(ownerDir, cwd);
-        context.report({ node, messageId: 'barrel', data: { specifier, name } });
+        const fix = barrelFix(node, specifier, ownerDir);
+        context.report({
+          node,
+          messageId: 'barrel',
+          data: { specifier, name },
+          ...(fix && { fix }),
+        });
       },
     };
   },
