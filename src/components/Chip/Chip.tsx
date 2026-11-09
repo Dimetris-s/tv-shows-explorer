@@ -12,6 +12,7 @@ export const Chip = ({ children, isActive, onClick, count }: ChipProps) => {
       {children}
       {count !== undefined && (
         <span className="text-muted-foreground in-data-pressed:text-primary-foreground">
+          <span className="hidden in-data-pressed:inline">· </span>
           {count}
         </span>
       )}

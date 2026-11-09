@@ -1,0 +1,1 @@
+export { CinemaIllustration } from './CinemaIllustration';

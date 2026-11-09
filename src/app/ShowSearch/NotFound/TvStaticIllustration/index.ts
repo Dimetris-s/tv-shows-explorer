@@ -1,0 +1,1 @@
+export { TvStaticIllustration } from './TvStaticIllustration';

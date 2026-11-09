@@ -1,10 +1,15 @@
-import { Button } from '@/components/Button';
+import { FilmGrain } from './FilmGrain';
+import { Header } from './Header';
+import { ShowSearch } from './ShowSearch';
 
 export const App = () => {
   return (
-    <main className="flex min-h-svh flex-col items-center justify-center gap-4">
-      <h1 className="text-2xl font-semibold">TV Shows Explorer</h1>
-      <Button>Explore</Button>
-    </main>
+    <div className="relative min-h-svh">
+      <FilmGrain />
+      <main className="relative mx-auto flex max-w-[1080px] flex-col gap-8 px-6 pb-20">
+        <Header />
+        <ShowSearch />
+      </main>
+    </div>
   );
 };
