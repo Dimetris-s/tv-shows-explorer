@@ -6,7 +6,7 @@
 
 - Vite+ (`vp`): Vite, Oxlint (type-aware), Oxfmt, Vitest
 - React 19, TypeScript 7 (strict, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`)
-- Tailwind CSS v4, shadcn/ui на Base UI
+- Tailwind CSS v4, shadcn/ui на Base UI, дизайн-система Cinema Noir (`docs/design-system.md`)
 - pnpm, Node ≥ 24.11
 
 ## Команды
@@ -31,6 +31,7 @@
 
 ## Как работать
 
+- **Вёрстка** — только токены дизайн-системы (`bg-primary`, `text-muted-foreground`, `text-h1`, `rounded-md`), без произвольных цветов и размеров. Таблица токенов и компонентов: `docs/design-system.md`. Сначала ищи готовый компонент в `src/components/`.
 - **Новый компонент** — только через генератор, не вручную. Перед созданием вызови скилл `create-component`.
 - **Файл превысил 120 строк** или компонент разросся — вызови скилл `decompose-component`.
 - **Новый shadcn-примитив**: `pnpm dlx shadcn@latest add <name>`, затем обёртка `pnpm gen:component src/components/<Name> --wrap <name>`.

@@ -71,6 +71,7 @@ export default defineConfig({
         rules: {
           'react/only-export-components': 'off',
           'max-lines': 'off',
+          'typescript/no-unsafe-type-assertion': 'off',
           'simple-architecture/file-naming': 'off',
           'simple-architecture/pure-view': 'off',
         },
