@@ -4,34 +4,28 @@
 @import '@fontsource-variable/inter';
 @import '@fontsource-variable/space-grotesk';
 
-/*
- * Cinema Noir: the TV Explorer design system (docs/design-system.md).
- * The app has a single dark theme; <html class="dark"> enables shadcn `dark:` variants.
- */
-
 @custom-variant dark (&:is(.dark *));
 
-/* Cinema Noir palette mapped to shadcn semantic tokens */
 :root {
   color-scheme: dark;
 
-  --background: #0e0e10; /* --bg */
-  --foreground: #f2f0eb; /* --text */
-  --card: #18181c; /* --surface */
+  --background: #0e0e10;
+  --foreground: #f2f0eb;
+  --card: #18181c;
   --card-foreground: #f2f0eb;
   --popover: #18181c;
   --popover-foreground: #f2f0eb;
-  --primary: #f5a524; /* --accent */
-  --primary-foreground: #1a1206; /* --on-accent */
-  --primary-hover: #ffc861; /* --accent-hover */
-  --primary-soft: #3b2a0c; /* --accent-soft */
-  --secondary: #24242a; /* --surface-2 */
+  --primary: #f5a524;
+  --primary-foreground: #1a1206;
+  --primary-hover: #ffc861;
+  --primary-soft: #3b2a0c;
+  --secondary: #24242a;
   --secondary-foreground: #f2f0eb;
   --muted: #24242a;
-  --muted-foreground: #a3a1a8; /* --text-muted */
-  --accent: #24242a; /* shadcn hover background, not the Cinema Noir accent */
+  --muted-foreground: #a3a1a8;
+  --accent: #24242a;
   --accent-foreground: #f2f0eb;
-  --destructive: #f07167; /* --danger */
+  --destructive: #f07167;
   --border: #2a2a31;
   --border-strong: #3a3a42;
   --input: #3a3a42;
@@ -43,7 +37,6 @@
 
 @theme inline {
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
-  /* Space Grotesk has no Cyrillic: Russian headings fall back to Inter */
   --font-heading: 'Space Grotesk Variable', 'Inter Variable', ui-sans-serif, sans-serif;
 
   --color-background: var(--background);
@@ -77,7 +70,6 @@
   --radius-xl: 20px;
 }
 
-/* Type scale: `text-display` … `text-overline`; headings also need `font-heading` */
 @theme {
   --text-display: 3rem;
   --text-display--line-height: 1.05;

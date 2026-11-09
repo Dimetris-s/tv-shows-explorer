@@ -2,7 +2,6 @@ import type { QueryFn, QueryKey } from './types';
 
 export type QueryStatus = 'idle' | 'pending' | 'success' | 'error';
 
-/** Immutable snapshot of one key: replaced on every change so useSyncExternalStore sees it. */
 export type QueryEntry<T> = {
   status: QueryStatus;
   data: T | undefined;
@@ -46,11 +45,9 @@ const toError = (error: unknown) => (error instanceof Error ? error : new Error(
 
 export const hashQueryKey = (queryKey: QueryKey) => JSON.stringify(queryKey);
 
-/** In-memory query cache shared by every useQuery call. */
 export const queryStore = {
-  /** A key is always written by the same queryFn, so `T` is the caller's contract. */
   get: <T>(hash: string): QueryEntry<T> =>
-    // oxlint-disable-next-line typescript/no-unsafe-type-assertion -- type is fixed by the key's queryFn
+    // oxlint-disable-next-line typescript/no-unsafe-type-assertion
     (records.get(hash)?.entry ?? IDLE_ENTRY) as QueryEntry<T>,
 
   subscribe: (hash: string, listener: () => void) => {
@@ -59,7 +56,6 @@ export const queryStore = {
     return () => listeners.delete(listener);
   },
 
-  /** Marks the key as in use. The returned release aborts the request once nobody needs it. */
   observe: (hash: string) => {
     const record = recordOf(hash);
     record.observers += 1;
@@ -73,7 +69,6 @@ export const queryStore = {
     };
   },
 
-  /** Starts a request unless one is in flight or the cached data is still fresh. */
   fetch: <T>(hash: string, queryFn: QueryFn<T>, staleTime: number) => {
     const record = recordOf(hash);
     const { entry } = record;
@@ -106,7 +101,6 @@ export const queryStore = {
     );
   },
 
-  /** Makes the key stale: the next fetch requests it again. */
   invalidate: (hash: string) => {
     const record = records.get(hash);
     if (record) update(record, { updatedAt: 0 });

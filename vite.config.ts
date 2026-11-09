@@ -4,7 +4,6 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig, lazyPlugins } from 'vite-plus';
 
-// https://vite.dev/config/
 export default defineConfig({
   resolve: {
     alias: {
@@ -46,8 +45,7 @@ export default defineConfig({
     },
     overrides: [
       {
-        // Simple Architecture: docs/architecture/enforcement.md
-        files: ['src/**/*.ts', 'src/**/*.tsx'],
+        files: ['src*.ts', 'src*.tsx'],
         rules: {
           'max-lines': ['error', { max: 120, skipBlankLines: true, skipComments: true }],
           'import/no-default-export': 'error',
@@ -58,7 +56,6 @@ export default defineConfig({
         },
       },
       {
-        // Entry point mounts App and is not a component
         files: ['src/main.tsx'],
         rules: {
           'simple-architecture/file-naming': 'off',
@@ -66,7 +63,6 @@ export default defineConfig({
         },
       },
       {
-        // shadcn/ui vendor code: generated, exempt from architecture rules
         files: ['src/components/ui/**'],
         rules: {
           'react/only-export-components': 'off',

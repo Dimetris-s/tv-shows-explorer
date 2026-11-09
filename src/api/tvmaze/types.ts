@@ -1,5 +1,3 @@
-/** DTOs of the TVmaze API: https://www.tvmaze.com/api */
-
 export type TvmazeCountry = {
   name: string;
   code: string;
@@ -23,14 +21,12 @@ export type TvmazeShow = {
   id: number;
   url: string;
   name: string;
-  /** Scripted, Reality, Animation, Documentary, Talk Show, … */
   type: string;
   language: string | null;
   genres: string[];
   status: TvmazeShowStatus | (string & {});
   runtime: number | null;
   averageRuntime: number | null;
-  /** ISO date, e.g. `2012-08-26`. */
   premiered: string | null;
   ended: string | null;
   officialSite: string | null;
@@ -38,7 +34,6 @@ export type TvmazeShow = {
   network: TvmazeChannel | null;
   webChannel: TvmazeChannel | null;
   image: TvmazeImage | null;
-  /** HTML markup. */
   summary: string | null;
 };
 

@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# PostToolUse hook: autofix, format and lint the file Claude just edited.
-# Problems left after autofix are reported back to Claude via stderr + exit code 2.
 set -uo pipefail
 
 file_path=$(jq -r '.tool_input.file_path // empty')

@@ -56,16 +56,14 @@
 
 ## Компоненты (`src/components/`)
 
-| Компонент     | Макет                                  | API                                                                    |
-| ------------- | -------------------------------------- | ---------------------------------------------------------------------- |
-| `Button`      | primary / secondary / ghost / disabled | `variant`: `default` (primary), `outline` (secondary), `ghost`; `size` |
-| `Badge`       | рейтинг, «В эфире»                     | `variant`: `rating`, `rating-empty`, `soft` + варианты shadcn          |
-| `Skeleton`    | скелетон карточки                      | `className` задаёт размеры                                             |
-| `Chip`        | чипс жанра: active / default / hover   | `isActive`, `onClick`, `count`                                         |
-| `Pagination`  | пагинация                              | `page`, `pageCount`, `onPageChange`; при одной странице не рендерится  |
-| `SearchField` | live search: пусто / загрузка / текст  | `value`, `onValueChange`, `label`, `placeholder`, `isLoading`          |
+| Компонент  | Макет                                  | API                                                                    |
+| ---------- | -------------------------------------- | ---------------------------------------------------------------------- |
+| `Button`   | primary / secondary / ghost / disabled | `variant`: `default` (primary), `outline` (secondary), `ghost`; `size` |
+| `Badge`    | рейтинг, «В эфире»                     | `variant`: `rating`, `rating-empty`, `soft` + варианты shadcn          |
+| `Skeleton` | скелетон карточки                      | `className` задаёт размеры                                             |
+| `Chip`     | чипс жанра: active / default / hover   | `isActive`, `onClick`, `count`                                         |
 
-Карточка сериала и шапка — компоненты приложения, они появятся вместе с экранами.
+Здесь только UI kit. Пагинация, поле поиска, карточка сериала и шапка из макета — компоненты экрана поиска: они живут в его папке и появятся вместе с ним.
 
 ## Как менять
 

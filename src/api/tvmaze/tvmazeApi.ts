@@ -9,7 +9,6 @@ type CallOptions = {
 };
 
 export const tvmazeApi = {
-  /** Full-text search. TVmaze returns at most 10 best matches. */
   searchShows: async (query: string, options: CallOptions = {}): Promise<TvmazeShow[]> => {
     const results = await httpGet<TvmazeSearchResult[]>(`${BASE_URL}/search/shows`, {
       ...options,

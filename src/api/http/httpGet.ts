@@ -5,7 +5,6 @@ const DEFAULT_TIMEOUT_MS = 10_000;
 export type QueryParams = Record<string, string | number | boolean | undefined>;
 
 export type RequestOptions = {
-  /** Caller's cancellation signal: aborting it rethrows the AbortError as is. */
   signal?: AbortSignal;
   params?: QueryParams;
   timeoutMs?: number;
@@ -19,7 +18,6 @@ const buildUrl = (url: string, params: QueryParams = {}) => {
   return result;
 };
 
-/** GET request returning parsed JSON. The response shape is trusted, not validated. */
 export const httpGet = async <T>(url: string, options: RequestOptions = {}): Promise<T> => {
   const { signal, params, timeoutMs = DEFAULT_TIMEOUT_MS } = options;
   const timeoutSignal = AbortSignal.timeout(timeoutMs);
@@ -42,7 +40,6 @@ export const httpGet = async <T>(url: string, options: RequestOptions = {}): Pro
   }
 
   try {
-    // Trusted boundary: the response is typed by the API's DTOs, not validated at runtime
     const body: T = await response.json();
     return body;
   } catch (error) {

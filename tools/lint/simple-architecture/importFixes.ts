@@ -5,7 +5,6 @@ import type { ESTree, Fixer, SourceCode } from 'vite-plus/lint/plugins';
 
 type Import = ESTree.ImportDeclaration;
 
-/** Checks the names a barrel (`<dir>/index.ts`) re-exports; null when there is no barrel. */
 const barrelExportsOf = (dir: string) => {
   const barrel = path.join(dir, 'index.ts');
   if (!fs.existsSync(barrel)) return null;
@@ -13,7 +12,6 @@ const barrelExportsOf = (dir: string) => {
   return (name: string) => new RegExp(`\\b${name}\\b`).test(text);
 };
 
-/** Imported names, or null for default/namespace imports that a barrel cannot replace. */
 const importedNames = (node: Import) => {
   const names: string[] = [];
   for (const specifier of node.specifiers) {
@@ -26,7 +24,6 @@ const importedNames = (node: Import) => {
 
 const quoteOf = (node: Import) => node.source.raw?.[0] ?? "'";
 
-/** `…/Name/Name` or `…/Name/Name.types` → `…/Name`, when the barrel exports every imported name. */
 export const barrelFix = (node: Import, specifier: string, ownerDir: string) => {
   const names = importedNames(node);
   const exportsName = barrelExportsOf(ownerDir);
@@ -37,7 +34,6 @@ export const barrelFix = (node: Import, specifier: string, ownerDir: string) => 
   return (fixer: Fixer) => fixer.replaceText(node.source, `${quote}${target}${quote}`);
 };
 
-/** `@/components/ui/x` → `@/components/<Name>` per imported name, when every name has a wrapper. */
 export const vendorUiFix = (node: Import, componentsDir: string, sourceCode: SourceCode) => {
   const names = importedNames(node);
   if (!names || names.length === 0) return undefined;

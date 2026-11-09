@@ -7,7 +7,6 @@ const DEFAULT_STALE_TIME = 5 * 60_000;
 
 type LastData<T> = { hash: string; data: T } | null;
 
-/** Minimal TanStack Query–like hook: shared cache by key, cancellation of unused requests, status flags. */
 export const useQuery = <T>(options: UseQueryOptions<T>): QueryResult<T> => {
   const {
     queryKey,
@@ -23,7 +22,6 @@ export const useQuery = <T>(options: UseQueryOptions<T>): QueryResult<T> => {
   );
   const entry = useSyncExternalStore(subscribe, () => queryStore.get<T>(hash));
 
-  // Remember the last loaded data to show it while another key loads (keepPreviousData)
   const [lastData, setLastData] = useState<LastData<T>>(null);
   if (entry.data !== undefined && (lastData?.hash !== hash || lastData.data !== entry.data)) {
     setLastData({ hash, data: entry.data });
@@ -44,7 +42,6 @@ export const useQuery = <T>(options: UseQueryOptions<T>): QueryResult<T> => {
   };
 
   const data = entry.data ?? (keepPreviousData ? lastData?.data : undefined);
-  // An enabled idle key is about to be fetched by the effect: report it as fetching right away
   const isFetching = entry.isFetching || (enabled && entry.status === 'idle');
 
   return {

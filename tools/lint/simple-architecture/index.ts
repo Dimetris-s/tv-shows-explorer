@@ -5,7 +5,6 @@ import { fileNaming } from './rules/fileNaming.ts';
 import { presenterUsage } from './rules/presenterUsage.ts';
 import { pureView } from './rules/pureView.ts';
 
-/** Simple Architecture rules. See docs/architecture/enforcement.md. */
 const plugin = definePlugin({
   meta: { name: 'simple-architecture' },
   rules: {
@@ -16,5 +15,4 @@ const plugin = definePlugin({
   },
 });
 
-// oxlint loads JS plugins through their default export
 export default plugin;

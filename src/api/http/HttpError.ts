@@ -14,7 +14,6 @@ const messages: Record<HttpErrorKind, string> = {
   parse: 'Не удалось разобрать ответ сервера',
 };
 
-/** Request failure. Cancellation by the caller is not an HttpError: it rethrows the AbortError. */
 export class HttpError extends Error {
   readonly kind: HttpErrorKind;
   readonly url: string;

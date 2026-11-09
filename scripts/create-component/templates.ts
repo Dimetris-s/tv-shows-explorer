@@ -4,7 +4,6 @@ export type ComponentOptions = {
   props: boolean;
   styles: boolean;
   test: boolean;
-  /** shadcn file in src/components/ui to wrap, e.g. `button`. */
   wrap: string | undefined;
 };
 
