@@ -9,19 +9,24 @@ SPA on React 19 + TypeScript, built with [Vite+](https://viteplus.dev) (Vite, Ox
 
 ## Scripts
 
-| Command          | Description                         |
-| ---------------- | ----------------------------------- |
-| `pnpm dev`       | Start dev server                    |
-| `pnpm build`     | Type-check and build for production |
-| `pnpm preview`   | Preview production build            |
-| `pnpm check`     | Format check + lint + type check    |
-| `pnpm lint`      | Lint (type-aware Oxlint)            |
-| `pnpm lint:fix`  | Lint with autofix                   |
-| `pnpm fmt`       | Format code (Oxfmt)                 |
-| `pnpm typecheck` | TypeScript project build check      |
+| Command                             | Description                              |
+| ----------------------------------- | ---------------------------------------- |
+| `pnpm dev`                          | Start dev server                         |
+| `pnpm build`                        | Type-check and build for production      |
+| `pnpm preview`                      | Preview production build                 |
+| `pnpm check`                        | Format check + lint + type check         |
+| `pnpm lint`                         | Lint (type-aware Oxlint)                 |
+| `pnpm lint:fix`                     | Lint with autofix                        |
+| `pnpm fmt`                          | Format code (Oxfmt)                      |
+| `pnpm typecheck`                    | TypeScript project build check           |
+| `pnpm gen:component <path> [flags]` | Create a component (Simple Architecture) |
 
 ## Adding UI components
 
 ```sh
 pnpm dlx shadcn@latest add <component>
 ```
+
+## Architecture
+
+Simple Architecture (Clean Architecture + VIPER). Notes: [`docs/architecture`](docs/architecture/README.md).

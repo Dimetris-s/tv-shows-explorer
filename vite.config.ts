@@ -46,10 +46,33 @@ export default defineConfig({
     },
     overrides: [
       {
-        // shadcn-generated components export variants alongside components
+        // Simple Architecture: docs/architecture/enforcement.md
+        files: ['src/**/*.ts', 'src/**/*.tsx'],
+        rules: {
+          'max-lines': ['error', { max: 120, skipBlankLines: true, skipComments: true }],
+          'import/no-default-export': 'error',
+          'simple-architecture/file-naming': 'error',
+          'simple-architecture/presenter-usage': 'error',
+          'simple-architecture/pure-view': 'error',
+          'simple-architecture/encapsulated-imports': 'error',
+        },
+      },
+      {
+        // Entry point mounts App and is not a component
+        files: ['src/main.tsx'],
+        rules: {
+          'simple-architecture/file-naming': 'off',
+          'simple-architecture/pure-view': 'off',
+        },
+      },
+      {
+        // shadcn/ui vendor code: generated, exempt from architecture rules
         files: ['src/components/ui/**'],
         rules: {
           'react/only-export-components': 'off',
+          'max-lines': 'off',
+          'simple-architecture/file-naming': 'off',
+          'simple-architecture/pure-view': 'off',
         },
       },
     ],
@@ -61,6 +84,10 @@ export default defineConfig({
       {
         name: 'vite-plus',
         specifier: 'vite-plus/oxlint-plugin',
+      },
+      {
+        name: 'simple-architecture',
+        specifier: './tools/lint/simple-architecture/index.ts',
       },
     ],
   },
