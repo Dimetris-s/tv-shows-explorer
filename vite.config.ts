@@ -45,7 +45,7 @@ export default defineConfig({
     },
     overrides: [
       {
-        files: ['src*.ts', 'src*.tsx'],
+        files: ['src/**/*.ts', 'src/**/*.tsx'],
         rules: {
           'max-lines': ['error', { max: 120, skipBlankLines: true, skipComments: true }],
           'import/no-default-export': 'error',
