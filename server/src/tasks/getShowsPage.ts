@@ -1,4 +1,4 @@
-import type { ShowsPage } from '#/contract/index.ts';
+import type { ShowsPage } from '#contract/index.ts';
 
 import { countGenres } from './countGenres.ts';
 import { filterShowsByGenre } from './filterShowsByGenre.ts';

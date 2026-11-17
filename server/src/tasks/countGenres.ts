@@ -1,4 +1,4 @@
-import type { GenreCount, Show } from '#/contract/index.ts';
+import type { GenreCount, Show } from '#contract/index.ts';
 
 export const countGenres = (shows: Show[]): GenreCount[] => {
   const counts = new Map<string, number>();

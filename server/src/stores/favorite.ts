@@ -1,4 +1,4 @@
-import type { Show } from '#/contract/index.ts';
+import type { Show } from '#contract/index.ts';
 
 export type FavoriteEntry = {
   show: Show;

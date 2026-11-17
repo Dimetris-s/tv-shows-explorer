@@ -1,8 +1,8 @@
 import { Hono } from 'hono';
 import { logger } from 'hono/logger';
 
-import type { ApiError } from '#/contract/index.ts';
-import { HttpError } from '#/services/http/index.ts';
+import type { ApiError } from '#contract/index.ts';
+import { HttpError } from '#services/http/index.ts';
 
 import { clientId } from './routes/clientId.ts';
 import type { AppEnv } from './routes/env.ts';

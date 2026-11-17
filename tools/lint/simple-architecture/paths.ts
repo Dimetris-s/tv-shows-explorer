@@ -19,7 +19,7 @@ export const isComponentDir = (dir: string, cwd: string) =>
 
 export const resolveSpecifier = (specifier: string, filename: string, cwd: string) => {
   if (specifier.startsWith('@/')) return path.join(srcRootOf(cwd), specifier.slice(2));
-  if (specifier.startsWith('#/')) return path.join(serverSrcOf(cwd), specifier.slice(2));
+  if (specifier.startsWith('#')) return path.join(serverSrcOf(cwd), specifier.slice(1));
   if (specifier.startsWith('.')) return path.resolve(path.dirname(filename), specifier);
   return null;
 };

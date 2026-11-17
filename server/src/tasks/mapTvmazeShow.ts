@@ -1,5 +1,5 @@
-import type { Show } from '#/contract/index.ts';
-import type { TvmazeShow } from '#/services/tvmaze/index.ts';
+import type { Show } from '#contract/index.ts';
+import type { TvmazeShow } from '#services/tvmaze/index.ts';
 
 const ENTITIES: Record<string, string> = {
   '&amp;': '&',

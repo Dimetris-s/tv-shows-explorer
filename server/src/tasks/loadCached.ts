@@ -1,5 +1,5 @@
-import { CACHE_TTL_MS } from '#/stores/cache.ts';
-import type { CacheBucket } from '#/stores/cache.ts';
+import { CACHE_TTL_MS } from '#stores/cache.ts';
+import type { CacheBucket } from '#stores/cache.ts';
 
 export const loadCached = async <T>(
   bucket: CacheBucket<T>,

@@ -1,5 +1,5 @@
-import type { FavoriteToggle } from '#/contract/index.ts';
-import { favorite } from '#/stores/favorite.ts';
+import type { FavoriteToggle } from '#contract/index.ts';
+import { favorite } from '#stores/favorite.ts';
 
 import { countFavorites } from './countFavorites.ts';
 import { fetchShow } from './fetchShow.ts';

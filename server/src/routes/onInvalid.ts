@@ -1,6 +1,6 @@
 import type { Context } from 'hono';
 
-import type { ApiError } from '#/contract/index.ts';
+import type { ApiError } from '#contract/index.ts';
 
 type Issue = { path: PropertyKey[]; message: string };
 

@@ -2,7 +2,7 @@ import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
 import { z } from 'zod';
 
-import { getShowsPage } from '#/tasks/getShowsPage.ts';
+import { getShowsPage } from '#tasks/getShowsPage.ts';
 
 import type { AppEnv } from './env.ts';
 import { onInvalid } from './onInvalid.ts';

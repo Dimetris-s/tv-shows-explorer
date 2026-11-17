@@ -104,6 +104,6 @@ shows.get('/', zValidator('query', searchQuery, onInvalid), async (c) => {
 ## Запуск
 
 - Node запускает `.ts` напрямую (type stripping), сборки сервера нет.
-- Внутри сервера импорты через subpath imports Node с расширением: `import { searchShows } from '#/tasks/searchShows.ts'`. Алиасы `tsconfig` Node не понимает.
+- Внутри сервера импорты через subpath imports Node с расширением: `import { searchShows } from '#tasks/searchShows.ts'`. Алиасы `tsconfig` Node не понимает. Форма `#/…` не подходит: её не поддерживают Node 24 и TypeScript, встроенный в IDE.
 - `pnpm dev` поднимает фронт и `node --watch server/src/main.ts`.
 - Прод: образ `ghcr.io/dimetris-s/tv-shows-explorer-api`, сервис `api` в `docker/compose.yml` без наружных портов.

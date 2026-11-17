@@ -1,8 +1,8 @@
-import type { Show } from '#/contract/index.ts';
-import { httpGet } from '#/services/http/index.ts';
-import { TVMAZE_URL } from '#/services/tvmaze/index.ts';
-import type { TvmazeSearchResult } from '#/services/tvmaze/index.ts';
-import { cache } from '#/stores/cache.ts';
+import type { Show } from '#contract/index.ts';
+import { httpGet } from '#services/http/index.ts';
+import { TVMAZE_URL } from '#services/tvmaze/index.ts';
+import type { TvmazeSearchResult } from '#services/tvmaze/index.ts';
+import { cache } from '#stores/cache.ts';
 
 import { loadCached } from './loadCached.ts';
 import { mapTvmazeShow } from './mapTvmazeShow.ts';

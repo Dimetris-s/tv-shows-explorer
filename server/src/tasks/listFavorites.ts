@@ -1,5 +1,5 @@
-import type { ShowListItem } from '#/contract/index.ts';
-import { favorite } from '#/stores/favorite.ts';
+import type { ShowListItem } from '#contract/index.ts';
+import { favorite } from '#stores/favorite.ts';
 
 export const listFavorites = (clientId: string): ShowListItem[] =>
   Object.values(favorite[clientId] ?? {})
