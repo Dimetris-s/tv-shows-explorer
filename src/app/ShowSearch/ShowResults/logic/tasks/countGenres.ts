@@ -1,8 +1,7 @@
-import type { TvmazeShow } from '@/api/tvmaze';
+import type { Show } from '../../../types/show';
+import type { GenreCount } from '../../types/genreCount';
 
-import type { GenreCount } from './GenreFilter';
-
-export const countGenres = (shows: TvmazeShow[]): GenreCount[] => {
+export const countGenres = (shows: Show[]): GenreCount[] => {
   const counts = new Map<string, number>();
   for (const genre of shows.flatMap((show) => show.genres)) {
     counts.set(genre, (counts.get(genre) ?? 0) + 1);

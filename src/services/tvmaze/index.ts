@@ -1,4 +1,4 @@
-export { tvmazeApi } from './tvmazeApi';
+export { TVMAZE_URL } from './config';
 export type {
   TvmazeChannel,
   TvmazeCountry,

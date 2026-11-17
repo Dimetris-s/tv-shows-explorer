@@ -8,7 +8,7 @@ import {
 } from '@/components/InputGroup';
 
 import type { SearchFieldProps } from './SearchField.types';
-import { useSearchFieldPresenter } from './useSearchFieldPresenter';
+import { useSearchFieldPresenter } from './logic/useSearchFieldPresenter';
 
 export const SearchField = (props: SearchFieldProps) => {
   const { value, label, placeholder, isLoading, canClear, handleChange, handleClear } =

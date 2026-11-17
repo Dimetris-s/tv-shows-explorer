@@ -3,7 +3,7 @@ import { Chip } from '@/components/Chip';
 import { Typography } from '@/components/Typography';
 
 import type { GenreFilterProps } from './GenreFilter.types';
-import { useGenreFilterPresenter } from './useGenreFilterPresenter';
+import { useGenreFilterPresenter } from './logic/useGenreFilterPresenter';
 
 export const GenreFilter = (props: GenreFilterProps) => {
   const { summary, isFiltered, totalCount, genres, handleGenreClick, handleReset } =

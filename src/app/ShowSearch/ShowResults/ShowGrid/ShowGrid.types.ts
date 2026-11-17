@@ -1,6 +1,6 @@
-import type { TvmazeShow } from '@/api/tvmaze';
+import type { Show } from '../../types/show';
 
 export type ShowGridProps = {
-  shows: TvmazeShow[];
+  shows: Show[];
   highlightedGenre: string | null;
 };

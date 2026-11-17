@@ -1,6 +1,6 @@
-import type { TvmazeShow } from '@/api/tvmaze';
+import type { Show } from '../types/show';
 
 export type ShowResultsProps = {
   query: string;
-  shows: TvmazeShow[];
+  shows: Show[];
 };

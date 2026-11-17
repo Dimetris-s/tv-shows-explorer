@@ -1,4 +1,4 @@
-import type { GenreFilterProps } from './GenreFilter.types';
+import type { GenreFilterProps } from '../GenreFilter.types';
 
 export const useGenreFilterPresenter = ({
   query,

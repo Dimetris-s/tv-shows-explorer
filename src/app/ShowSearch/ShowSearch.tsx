@@ -4,7 +4,7 @@ import { SearchField } from './SearchField';
 import { SearchLoading } from './SearchLoading';
 import { ShowResults } from './ShowResults';
 import { StartState } from './StartState';
-import { useShowSearchPresenter } from './useShowSearchPresenter';
+import { useShowSearchPresenter } from './logic/useShowSearchPresenter';
 
 export const ShowSearch = () => {
   const { query, pendingQuery, isSearching, view, handleQueryChange, handleClear, handleRetry } =

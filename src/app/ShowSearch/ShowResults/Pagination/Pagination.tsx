@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/Button';
 
 import type { PaginationProps } from './Pagination.types';
-import { usePaginationPresenter } from './usePaginationPresenter';
+import { usePaginationPresenter } from './logic/usePaginationPresenter';
 
 export const Pagination = (props: PaginationProps) => {
   const { isHidden, pages, isFirst, isLast, handlePageClick, handlePrevious, handleNext } =

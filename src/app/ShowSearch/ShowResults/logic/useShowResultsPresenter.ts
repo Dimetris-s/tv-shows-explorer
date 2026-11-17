@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
-import { countGenres } from './countGenres';
-import type { ShowResultsProps } from './ShowResults.types';
+import { countGenres } from './tasks/countGenres';
+import { filterShowsByGenre } from './tasks/filterShowsByGenre';
+import type { ShowResultsProps } from '../ShowResults.types';
 
 const PAGE_SIZE = 3;
 
@@ -9,9 +10,7 @@ export const useShowResultsPresenter = ({ query, shows }: ShowResultsProps) => {
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [page, setPage] = useState(1);
 
-  const filteredShows = selectedGenre
-    ? shows.filter((show) => show.genres.includes(selectedGenre))
-    : shows;
+  const filteredShows = filterShowsByGenre(shows, selectedGenre);
 
   const handleGenreChange = (genre: string | null) => {
     setSelectedGenre(genre);

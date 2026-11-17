@@ -1,4 +1,4 @@
-import type { PaginationProps } from './Pagination.types';
+import type { PaginationProps } from '../Pagination.types';
 
 export const usePaginationPresenter = ({ page, pageCount, onPageChange }: PaginationProps) => {
   const handlePageClick = (target: number) => () => onPageChange(target);

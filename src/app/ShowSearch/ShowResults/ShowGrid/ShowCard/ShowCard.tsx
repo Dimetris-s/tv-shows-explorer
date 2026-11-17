@@ -2,7 +2,7 @@ import { Typography } from '@/components/Typography';
 
 import type { ShowCardProps } from './ShowCard.types';
 import { ShowPoster } from './ShowPoster';
-import { useShowCardPresenter } from './useShowCardPresenter';
+import { useShowCardPresenter } from './logic/useShowCardPresenter';
 
 export const ShowCard = (props: ShowCardProps) => {
   const { name, overline, summary, metaPrefix, genres, poster } = useShowCardPresenter(props);

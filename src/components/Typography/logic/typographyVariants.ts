@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-import type { TypographyTag, TypographyVariant } from './Typography.types';
+import type { TypographyTag, TypographyVariant } from '../Typography.types';
 
 export const typographyVariants = cva('', {
   variants: {

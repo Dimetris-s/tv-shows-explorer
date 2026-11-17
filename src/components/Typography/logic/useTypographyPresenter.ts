@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 
-import type { TypographyProps } from './Typography.types';
+import type { TypographyProps } from '../Typography.types';
 import { defaultTags, typographyVariants } from './typographyVariants';
 
 export const useTypographyPresenter = ({

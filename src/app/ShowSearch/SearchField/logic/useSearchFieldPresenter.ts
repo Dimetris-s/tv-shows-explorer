@@ -1,6 +1,6 @@
 import type { ChangeEvent } from 'react';
 
-import type { SearchFieldProps } from './SearchField.types';
+import type { SearchFieldProps } from '../SearchField.types';
 
 export const useSearchFieldPresenter = ({
   value,

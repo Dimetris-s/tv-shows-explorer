@@ -1,7 +1,4 @@
-export type GenreCount = {
-  name: string;
-  count: number;
-};
+import type { GenreCount } from '../types/genreCount';
 
 export type GenreFilterProps = {
   query: string;

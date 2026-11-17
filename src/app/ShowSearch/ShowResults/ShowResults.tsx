@@ -2,7 +2,7 @@ import { GenreFilter } from './GenreFilter';
 import { Pagination } from './Pagination';
 import type { ShowResultsProps } from './ShowResults.types';
 import { ShowGrid } from './ShowGrid';
-import { useShowResultsPresenter } from './useShowResultsPresenter';
+import { useShowResultsPresenter } from './logic/useShowResultsPresenter';
 
 export const ShowResults = (props: ShowResultsProps) => {
   const {

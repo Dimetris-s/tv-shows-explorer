@@ -1,8 +1,8 @@
-import type { TvmazeShow } from '@/api/tvmaze';
+import type { Show } from '../types/show';
 
 export type SearchResult = {
   query: string;
-  shows: TvmazeShow[];
+  shows: Show[];
 };
 
 export type SearchView =
@@ -10,7 +10,7 @@ export type SearchView =
   | { kind: 'loading' }
   | { kind: 'error'; message: string }
   | { kind: 'empty'; query: string }
-  | { kind: 'results'; query: string; shows: TvmazeShow[] };
+  | { kind: 'results'; query: string; shows: Show[] };
 
 type SearchState = {
   query: string;

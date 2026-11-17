@@ -1,2 +1,2 @@
 export { GenreFilter } from './GenreFilter';
-export type { GenreCount, GenreFilterProps } from './GenreFilter.types';
+export type { GenreFilterProps } from './GenreFilter.types';
