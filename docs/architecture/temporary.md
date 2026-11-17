@@ -6,8 +6,7 @@
 
 Инфраструктура, которую используют таски и презентеры:
 
-- `http/` — `httpGet<T>(url, { signal, params, timeoutMs })`: единственный http-клиент, обёртка над `fetch` с таймаутом (10 с по умолчанию). Ошибки приводятся к `HttpError` с `kind`: `http` (не 2xx, есть `status`), `network`, `timeout`, `parse`. Отмена вызывающим не считается ошибкой: пробрасывается исходный `AbortError`. Это не временное решение.
-- `tvmaze/` — `TVMAZE_URL` и DTO-типы TVmaze (`TvmazeShow` и др.), без функций. Импортируют только сетевые таски. Временно: до урока о направлении зависимостей.
+- `http/` — `httpGet<T>(url, { signal, params, timeoutMs })`, `httpPut<T>` и `httpDelete<T>` с теми же опциями: единственный http-клиент, обёртка над `fetch` с таймаутом (10 с по умолчанию). Относительный путь (`/api/shows`) достраивается от текущего origin. Ошибки приводятся к `HttpError` с `kind`: `http` (не 2xx, есть `status`), `network`, `timeout`, `parse`. Отмена вызывающим не считается ошибкой: пробрасывается исходный `AbortError`. Это не временное решение.
 - `query/` — `useQuery` вместо TanStack Query, поверх общего стора `queryStore`. Временно: это хук, а не таска, и пересматривается вместе с Entity.
   - кэш по ключу (`queryKey`), данные свежие `staleTime` (5 минут по умолчанию);
   - одновременные запросы с одним ключом дедуплицируются;
@@ -20,8 +19,8 @@
 
 ```ts
 const { data, isLoading, isError } = useQuery({
-  queryKey: ['shows', 'search', query],
-  queryFn: ({ signal }) => searchShows(query, signal),
+  queryKey: ['shows', query, genre, page],
+  queryFn: ({ signal }) => fetchShowsPage({ query, genre, page }, signal),
   enabled: query.length > 0,
   keepPreviousData: true,
 });
@@ -29,4 +28,14 @@ const { data, isLoading, isError } = useQuery({
 
 ## Одна страница
 
-Приложение — одна страница без роутинга. Разделение на слои и Router появятся позже.
+Приложение — одна страница без роутинга. Избранное открывается полноэкранным оверлеем поверх поиска, а не отдельным маршрутом. Router появится позже.
+
+## Сервер
+
+- Контракт API объявляет сервер (`@tv/server/contract`), фронт импортирует его типы. Пересматривается на уроке о направлении зависимостей.
+- `server/src/services/tvmaze/` — `TVMAZE_URL` и DTO TVmaze. Импортируют только сетевые таски сервера.
+- Хранилища — объекты в памяти процесса, без базы данных (по ДЗ). Варианты на будущее: SQLite (`node:sqlite`) на volume или Postgres отдельным контейнером.
+
+## Впереди: кодогенерация
+
+Отдельная ветка после ДЗ: описать API через OpenAPI или TypeSpec (или `@hono/zod-openapi` из кода), генерировать типы и клиент (`openapi-typescript` + `openapi-fetch`, `@hey-api/openapi-ts`, `orval`) и парсить ответы zod-схемами на границе клиентских тасок.

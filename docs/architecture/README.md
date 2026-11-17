@@ -13,9 +13,11 @@ VIPER: **V**iew, **I**nteractor, **P**resenter, **E**ntity, **R**outer.
 | View и Presenter                    | [view-presenter.md](./view-presenter.md) |
 | Структура папок и декомпозиция      | [structure.md](./structure.md)           |
 | Tasks (Interactor), Entity, Router  | [tasks.md](./tasks.md)                   |
+| Backend: граница фронта и бэка      | [backend.md](./backend.md)               |
 | Строгость: линтер и лимит строк     | [enforcement.md](./enforcement.md)       |
 | Временные решения (до новых уроков) | [temporary.md](./temporary.md)           |
 
 ## Впереди
 
 - Направление зависимостей: кто кому диктует интерфейс
+- Кодогенерация контракта API (после ДЗ, см. [temporary.md](./temporary.md))

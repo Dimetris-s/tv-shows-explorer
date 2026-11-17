@@ -1,17 +1,19 @@
 # TV Shows Explorer
 
-Учебный проект для отработки архитектуры **Simple Architecture** (Clean Architecture + VIPER, перенесённые на React). SPA для поиска сериалов через API TVmaze. Без SSR.
+Учебный проект для отработки архитектуры **Simple Architecture** (Clean Architecture + VIPER, перенесённые на React). SPA для поиска сериалов и избранного. Свой бэкенд (`server/`, Hono) ходит в API TVmaze, кеширует, фильтрует, пагинирует и хранит избранное. Без SSR.
 
 ## Стек
 
 - Vite+ (`vp`): Vite, Oxlint (type-aware), Oxfmt, Vitest
 - React 19, TypeScript 7 (strict, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`)
 - Tailwind CSS v4, shadcn/ui на Base UI, дизайн-система Cinema Noir (`docs/design-system.md`)
+- Бэкенд: Node 24 + Hono + zod, пакет `@tv/server` в pnpm workspace (`server/`), запуск `.ts` без сборки
+- Стор: zustand (`zustand/vanilla`), тосты: sonner
 - pnpm, Node ≥ 24.11
 
 ## Команды
 
-- `pnpm dev`: dev-сервер
+- `pnpm dev`: фронт и сервер (Vite проксирует `/api` на `localhost:3000`)
 - `pnpm check`: формат, линт и типы. Запускай перед тем, как считать задачу выполненной.
 - `pnpm build`: сборка
 - `pnpm gen:component <путь> [флаги]`: создать компонент (см. ниже)
@@ -23,7 +25,7 @@
 
 Полный конспект: `docs/architecture/`. Подробные правила подгружаются из `.claude/rules/` при работе с файлами в `src/`.
 
-1. **VIPER**: View — компонент, Presenter — хук `use<Name>Presenter`, Interactor — таски (`docs/architecture/tasks.md`), Entity — стор, Router — навигация в презентере.
+1. **VIPER**: View — компонент, Presenter — хук `use<Name>Presenter`, Interactor — таски (`docs/architecture/tasks.md`), Entity — стор (`src/stores/`), Router — навигация в презентере.
 2. **Компонент — это только View**: вызов `use<Name>Presenter` с деструктуризацией, ранний `return` и JSX (`map`, условный рендеринг, инлайновые классы). Никаких хуков, вычислений и инлайн-стрелок.
 3. **Презентер готовит всё**: данные, флаги, готовые обработчики или фабрики обработчиков. Возвращает один объект. Пропсы презентера совпадают с пропсами компонента (`<Name>.types.ts`).
 4. **Компонент — это папка** `Name/` с `Name.tsx` и `index.ts`, остальные файлы только по необходимости. Дочерние компоненты лежат папками внутри родителя. Всё без отображения (презентер, хелперы, таски) — в приватной `Name/logic/`.
@@ -31,7 +33,8 @@
 6. **Только именованные экспорты**, компоненты — стрелочные функции, импорт компонента снаружи только через barrel.
 7. **shadcn (`src/components/ui`) — вендорный код.** Его импортируют только обёртки в `src/components/<Name>/`.
 8. **В `src/components/` компонент попадает, только когда переиспользуется.** Сразу туда кладутся лишь базовые элементы UI kit (кнопка, поле ввода, бейдж, скелетон, чипс). Всё остальное живёт в папке фичи или экрана, где используется, и переезжает в `src/components/` при втором месте использования.
-9. **Таска — функция-глагол без React**: бизнес-логика и запросы к API (через `httpGet`, без отдельного API-слоя). Переиспользуемые таски — в `<Widget>/tasks/` или `src/tasks/`, хуки — в `src/hooks/`.
+9. **Таска — функция-глагол без React**: бизнес-логика и запросы к API (через `services/http`, без отдельного API-слоя). Переиспользуемые таски — в `<Widget>/tasks/` или `src/tasks/`, хуки — в `src/hooks/`.
+10. **Граница фронт/бэк** (`docs/architecture/backend.md`): логика, общая для всех клиентов (TVmaze, кеш, фильтр, жанры, пагинация, избранное), — на сервере. Фронт ходит только в `/api` и импортирует из сервера только `import type` из `@tv/server/contract`. Роут сервера тонкий, логика — в `server/src/tasks/`.
 
 ## Комментарии
 

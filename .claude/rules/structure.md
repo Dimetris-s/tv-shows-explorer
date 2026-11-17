@@ -17,7 +17,8 @@ src/
   tasks/          # переиспользуемые таски
   hooks/          # переиспользуемые хуки
   types/          # переиспользуемые типы
-  services/       # http-клиент; временно useQuery и конфиг TVmaze (docs/architecture/temporary.md)
+  stores/         # Entity: сторы zustand/vanilla
+  services/       # http-клиент; временно useQuery (docs/architecture/temporary.md)
   lib/            # общие утилиты
 ```
 
@@ -48,4 +49,5 @@ src/
 - Компонент фичи или экрана (пагинация, поле поиска, карточка) живёт в папке этой фичи, даже если «наверное, пригодится где-то ещё». Переезжает в `src/components/` при втором месте использования.
 - Снаружи папки компонента импортируй только саму папку: `@/app/ShowList/ShowCard`, а не `…/ShowCard/ShowCard`.
 - `@/components/ui/*` импортируют только обёртки в `src/components/<Name>/`.
+- Типы ответов API — только `import type { … } from '@tv/server/contract'`. Другие импорты из сервера и относительные пути в `server/` запрещены.
 - Не больше 120 строк на `.ts`/`.tsx` (без пустых строк и комментариев). Упёрся в лимит — скилл `decompose-component`.

@@ -4,7 +4,7 @@
 
 ## Лимит строк
 
-В `.ts` и `.tsx` внутри `src/` не больше **120 строк**. Пустые строки и комментарии не считаются.
+В `.ts` и `.tsx` внутри `src/` и `server/src/` не больше **120 строк**. Пустые строки и комментарии не считаются.
 
 Если файл упёрся в лимит, сущность декомпозируется:
 
@@ -25,6 +25,10 @@
 | `logic-scope`          | нет      | `X/logic/` импортирует только `X`; `X/tasks/`, `X/types/`, `X/components/` — только поддерево `X/`; View не импортирует таски и из `logic/` берёт только презентер |
 | `framework-free-tasks` | нет      | в `tasks/` нет импортов React, компонентов, `.tsx` и хуков                                                                                                         |
 | `task-shape`           | нет      | таска — `.ts` с одним экспортом-функцией с именем файла в camelCase; `index.ts` папки таски — только реэкспорт; у `tasks/` нет barrel                              |
+| `server-boundary`      | нет      | фронт импортирует из сервера только `@tv/server/contract` и только `import type`; относительные пути в `server/` запрещены                                         |
+| `server-layers`        | нет      | серверные роуты не импортируют `stores/` и `services/` (только таски и контракт); таски не импортируют роуты, `hono` и `zod`                                       |
+
+На сервере (`server/src/**`) действуют лимит строк, именованные экспорты, `task-shape`, `framework-free-tasks` (для `tasks/`) и `server-layers`. Правила компонентов и презентеров там не применяются: View на сервере нет.
 
 Автофикс `encapsulated-imports`:
 
@@ -59,4 +63,4 @@ pnpm gen:component <путь> [--presenter] [--props] [--styles] [--test] [--wra
 pnpm gen:task <путь до tasks>/<verbName> [--folder]
 ```
 
-Генератор проверяет, что путь лежит прямо в `tasks/` компонента (`<Name>/logic/tasks`, `<Widget>/tasks`) или в `src/tasks`, а имя — camelCase и не хук. Подробности — в `.claude/skills/create-task/SKILL.md`.
+Генератор проверяет, что путь лежит прямо в `tasks/` компонента (`<Name>/logic/tasks`, `<Widget>/tasks`), в `src/tasks` или в `server/src/tasks`, а имя — camelCase и не хук. Подробности — в `.claude/skills/create-task/SKILL.md`.
