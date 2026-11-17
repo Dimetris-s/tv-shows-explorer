@@ -2,13 +2,13 @@
 
 Здесь собраны решения, принятые до того, как в курсе пройдены соответствующие темы. Когда тема будет пройдена, решение пересматривается.
 
-## Слой `src/api/` (до Interactor и Entity)
+## Слой `src/services/`
 
-Пока нет Interactor и Entity, сетевой код живёт в `src/api/`:
+Инфраструктура, которую используют таски и презентеры:
 
-- `http/` — `httpGet<T>(url, { signal, params, timeoutMs })`: обёртка над `fetch` с таймаутом (10 с по умолчанию). Ошибки приводятся к `HttpError` с `kind`: `http` (не 2xx, есть `status`), `network`, `timeout`, `parse`. Отмена вызывающим не считается ошибкой: пробрасывается исходный `AbortError`.
-- `tvmaze/` — `tvmazeApi.searchShows(query, { signal })`, `tvmazeApi.getShow(id, { signal })` и DTO-типы (`TvmazeShow` и др.). Поиск TVmaze возвращает не больше 10 результатов.
-- `query/` — `useQuery` вместо TanStack Query, поверх общего стора `queryStore`:
+- `http/` — `httpGet<T>(url, { signal, params, timeoutMs })`: единственный http-клиент, обёртка над `fetch` с таймаутом (10 с по умолчанию). Ошибки приводятся к `HttpError` с `kind`: `http` (не 2xx, есть `status`), `network`, `timeout`, `parse`. Отмена вызывающим не считается ошибкой: пробрасывается исходный `AbortError`. Это не временное решение.
+- `tvmaze/` — `TVMAZE_URL` и DTO-типы TVmaze (`TvmazeShow` и др.), без функций. Импортируют только сетевые таски. Временно: до урока о направлении зависимостей.
+- `query/` — `useQuery` вместо TanStack Query, поверх общего стора `queryStore`. Временно: это хук, а не таска, и пересматривается вместе с Entity.
   - кэш по ключу (`queryKey`), данные свежие `staleTime` (5 минут по умолчанию);
   - одновременные запросы с одним ключом дедуплицируются;
   - запрос отменяется, когда ключ больше никому не нужен (сменился ключ или размонтировался компонент);
@@ -16,12 +16,12 @@
   - `enabled: false` — не запрашивать (например, пустая строка поиска);
   - `keepPreviousData: true` — показывать прошлые данные, пока грузится новый ключ.
 
-Презентеры получают данные через `useQuery`:
+Презентер получает данные через `useQuery`, а запрос выполняет таска:
 
 ```ts
 const { data, isLoading, isError } = useQuery({
   queryKey: ['shows', 'search', query],
-  queryFn: ({ signal }) => tvmazeApi.searchShows(query, { signal }),
+  queryFn: ({ signal }) => searchShows(query, signal),
   enabled: query.length > 0,
   keepPreviousData: true,
 });

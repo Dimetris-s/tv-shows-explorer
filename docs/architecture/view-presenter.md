@@ -27,12 +27,14 @@ Presenter — место, где модель соединяется с отоб
 - Отдаёт **готовые обработчики**. Если обработчик нужно параметризовать внутри `map`, презентер отдаёт фабрику — функцию, возвращающую обработчик. В JSX это вызов фабрики, а не инлайн-стрелка: `onClick={handleSelect(show.id)}`.
 - Если презентеру нужны пропсы, они **совпадают с пропсами компонента**. Тип описывается один раз в `<Component>.types.ts` и переиспользуется компонентом и презентером.
 - Если компоненту нечего готовить (он просто рисует пропсы), презентер не создаётся.
+- Лежит в `logic/` компонента: `Name/logic/useNamePresenter.ts`.
+- Бизнес-логику не реализует сам, а вызывает таски (`docs/architecture/tasks.md`). Навигация (Router) — тоже в презентере.
 
 ## Пример
 
 ```ts
 // ShowList/ShowList.types.ts
-import type { Show } from '@/api/tvmaze';
+import type { Show } from '../types/show';
 
 export type ShowListProps = {
   shows: Show[];
@@ -41,8 +43,8 @@ export type ShowListProps = {
 ```
 
 ```ts
-// ShowList/useShowListPresenter.ts
-import type { ShowListProps } from './ShowList.types';
+// ShowList/logic/useShowListPresenter.ts
+import type { ShowListProps } from '../ShowList.types';
 
 export const useShowListPresenter = ({ shows, onSelect }: ShowListProps) => {
   const handleSelect = (id: number) => () => onSelect(id);
@@ -58,7 +60,7 @@ export const useShowListPresenter = ({ shows, onSelect }: ShowListProps) => {
 ```tsx
 // ShowList/ShowList.tsx
 import type { ShowListProps } from './ShowList.types';
-import { useShowListPresenter } from './useShowListPresenter';
+import { useShowListPresenter } from './logic/useShowListPresenter';
 
 export const ShowList = (props: ShowListProps) => {
   const { shows, isEmpty, handleSelect } = useShowListPresenter(props);

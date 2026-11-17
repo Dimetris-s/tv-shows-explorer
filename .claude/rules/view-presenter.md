@@ -1,7 +1,7 @@
 ---
 paths:
   - 'src/**/*.tsx'
-  - 'src/**/use*Presenter.ts'
+  - 'src/**/logic/use*Presenter.ts'
   - 'src/**/*.types.ts'
 ---
 
@@ -13,7 +13,7 @@ paths:
 
 ```tsx
 import type { NameProps } from './Name.types';
-import { useNamePresenter } from './useNamePresenter';
+import { useNamePresenter } from './logic/useNamePresenter';
 
 export const Name = (props: NameProps) => {
   const { items, isEmpty, handleSelect } = useNamePresenter(props);
@@ -38,11 +38,12 @@ export const Name = (props: NameProps) => {
 - Запрещены любые хуки, кроме своего презентера, вычисления, объявления функций, `else` и инлайн-стрелки или `function` в атрибутах JSX.
 - Если компоненту нечего готовить, презентера нет: пропсы деструктурируются прямо в параметрах.
 
-## Презентер (`useNamePresenter.ts`)
+## Презентер (`logic/useNamePresenter.ts`)
 
 - Хук `use<Name>Presenter`, используется только компонентом `Name` из той же папки.
 - Готовит всё для отрисовки: данные, флаги (`isEmpty`, `isLoading`), готовые обработчики.
 - Обработчик с параметром внутри `map` — это фабрика: `const handleSelect = (id: number) => () => onSelect(id);`, в JSX `onClick={handleSelect(item.id)}`.
 - Возвращает один объект, компонент его деструктурирует.
 - Принимает те же пропсы, что и компонент: тип `NameProps` из `Name.types.ts`.
-- Если презентер разросся, вспомогательные хуки и утилиты лежат в той же папке.
+- Если презентер разросся, вспомогательные хуки и хелперы лежат рядом, в `logic/`.
+- Бизнес-логику вызывает из тасок (`.claude/rules/tasks.md`), сам её не реализует. Навигация — в презентере.
