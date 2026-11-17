@@ -1,15 +1,23 @@
-import { FilmGrain } from './FilmGrain';
+import { Toaster } from '@/components/Toaster';
+
+import { FavoritesOverlay } from './FavoritesOverlay';
 import { Header } from './Header';
 import { ShowSearch } from './ShowSearch';
+import { FilmGrain } from './components/FilmGrain';
+import { useAppPresenter } from './logic/useAppPresenter';
 
 export const App = () => {
+  const { isFavoritesOpen, handleFavoritesOpen, handleFavoritesClose } = useAppPresenter();
+
   return (
     <div className="relative min-h-svh">
       <FilmGrain />
       <main className="relative mx-auto flex max-w-[1080px] flex-col gap-8 px-6 pb-20">
-        <Header />
+        <Header onFavoritesOpen={handleFavoritesOpen} />
         <ShowSearch />
       </main>
+      <FavoritesOverlay isOpen={isFavoritesOpen} onClose={handleFavoritesClose} />
+      <Toaster />
     </div>
   );
 };

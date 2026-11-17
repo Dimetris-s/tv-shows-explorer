@@ -1,6 +1,6 @@
 import { Button } from '@/components/Button';
 
-import { StatePanel } from '../components/StatePanel';
+import { StatePanel } from '@/components/StatePanel';
 import type { NotFoundProps } from './NotFound.types';
 import { TvStaticIllustration } from './TvStaticIllustration';
 

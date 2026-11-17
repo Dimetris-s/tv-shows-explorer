@@ -1,8 +1,8 @@
-import type { Show } from '../types/show';
+import type { ShowsPage } from '@tv/server/contract';
 
 export type SearchResult = {
   query: string;
-  shows: Show[];
+  page: ShowsPage;
 };
 
 export type SearchView =
@@ -10,7 +10,7 @@ export type SearchView =
   | { kind: 'loading' }
   | { kind: 'error'; message: string }
   | { kind: 'empty'; query: string }
-  | { kind: 'results'; query: string; shows: Show[] };
+  | { kind: 'results'; query: string; result: ShowsPage };
 
 type SearchState = {
   query: string;
@@ -22,6 +22,6 @@ export const toSearchView = ({ query, result, error }: SearchState): SearchView 
   if (!query) return { kind: 'start' };
   if (error) return { kind: 'error', message: error.message };
   if (!result) return { kind: 'loading' };
-  if (result.shows.length === 0) return { kind: 'empty', query: result.query };
-  return { kind: 'results', query: result.query, shows: result.shows };
+  if (result.page.totalCount === 0) return { kind: 'empty', query: result.query };
+  return { kind: 'results', query: result.query, result: result.page };
 };

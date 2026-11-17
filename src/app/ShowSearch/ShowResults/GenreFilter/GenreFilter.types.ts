@@ -1,4 +1,4 @@
-import type { GenreCount } from '../types/genreCount';
+import type { GenreCount } from '@tv/server/contract';
 
 export type GenreFilterProps = {
   query: string;
