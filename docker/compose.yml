@@ -1,0 +1,15 @@
+services:
+  web:
+    image: ghcr.io/dimetris-s/tv-shows-explorer:${TAG:-latest}
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:3000:80'
+    depends_on:
+      - api
+
+  api:
+    image: ghcr.io/dimetris-s/tv-shows-explorer-api:${TAG:-latest}
+    restart: unless-stopped
+    init: true
+    environment:
+      PORT: '3000'

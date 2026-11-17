@@ -12,7 +12,7 @@ permissions:
   contents: read
 
 env:
-  IMAGE: ghcr.io/dimetris-s/tv-shows-explorer
+  REGISTRY: ghcr.io/dimetris-s
 
 jobs:
   check:
@@ -24,6 +24,13 @@ jobs:
     permissions:
       contents: read
       packages: write
+    strategy:
+      matrix:
+        include:
+          - image: tv-shows-explorer
+            dockerfile: Dockerfile
+          - image: tv-shows-explorer-api
+            dockerfile: server/Dockerfile
     steps:
       - uses: actions/checkout@v4
 
@@ -38,18 +45,30 @@ jobs:
       - uses: docker/build-push-action@v6
         with:
           context: .
+          file: ${{ matrix.dockerfile }}
           push: true
           tags: |
-            ${{ env.IMAGE }}:latest
-            ${{ env.IMAGE }}:sha-${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+            ${{ env.REGISTRY }}/${{ matrix.image }}:latest
+            ${{ env.REGISTRY }}/${{ matrix.image }}:sha-${{ github.sha }}
+          cache-from: type=gha,scope=${{ matrix.image }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.image }}
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
     environment: production
     steps:
+      - uses: actions/checkout@v4
+
+      - uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: docker/compose.yml
+          target: /opt/tv-shows-explorer
+          strip_components: 1
+
       - uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
