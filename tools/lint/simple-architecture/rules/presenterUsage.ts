@@ -2,7 +2,7 @@ import path from 'node:path';
 
 import { defineRule } from 'vite-plus/lint/plugins';
 
-import { componentNameOf, resolveSpecifier } from '../paths.ts';
+import { componentNameOf, presenterOwnerDir, resolveSpecifier } from '../paths.ts';
 
 const PRESENTER_MODULE = /^use[A-Za-z0-9]*Presenter$/;
 
@@ -12,7 +12,7 @@ export const presenterUsage = defineRule({
     docs: { description: 'A presenter is used only by its own component.' },
     messages: {
       foreign:
-        'Презентер `{{presenter}}` принадлежит компоненту `{{owner}}` и импортируется только из `{{owner}}.tsx` в той же папке.',
+        'Презентер `{{presenter}}` принадлежит компоненту `{{owner}}` и импортируется только из `{{owner}}.tsx`.',
     },
   },
   createOnce(context) {
@@ -26,10 +26,10 @@ export const presenterUsage = defineRule({
         const presenter = path.basename(resolved);
         if (!PRESENTER_MODULE.test(presenter)) return;
 
-        const presenterDir = path.dirname(resolved);
-        const owner = componentNameOf(presenterDir, cwd);
+        const ownerDir = presenterOwnerDir(path.dirname(resolved));
+        const owner = componentNameOf(ownerDir, cwd);
         const isOwner =
-          path.dirname(filename) === presenterDir && path.basename(filename) === `${owner}.tsx`;
+          path.dirname(filename) === ownerDir && path.basename(filename) === `${owner}.tsx`;
 
         if (!isOwner) {
           context.report({ node, messageId: 'foreign', data: { presenter, owner } });

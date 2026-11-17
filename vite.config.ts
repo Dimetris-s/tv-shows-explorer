@@ -54,6 +54,14 @@ export default defineConfig({
           'simple-architecture/presenter-usage': 'error',
           'simple-architecture/pure-view': 'error',
           'simple-architecture/encapsulated-imports': 'error',
+          'simple-architecture/logic-scope': 'error',
+        },
+      },
+      {
+        files: ['src/**/tasks/**'],
+        rules: {
+          'simple-architecture/framework-free-tasks': 'error',
+          'simple-architecture/task-shape': 'error',
         },
       },
       {
