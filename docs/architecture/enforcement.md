@@ -51,4 +51,12 @@
 pnpm gen:component <путь> [--presenter] [--props] [--styles] [--test] [--wrap <ui-файл>]
 ```
 
-Подробности — в `.claude/skills/create-component/SKILL.md`.
+Подробности — в `.claude/skills/create-component/SKILL.md`. Флаг `--presenter` создаёт `logic/use<Name>Presenter.ts`.
+
+Таски создаются так же:
+
+```sh
+pnpm gen:task <путь до tasks>/<verbName> [--folder]
+```
+
+Генератор проверяет, что путь лежит прямо в `tasks/` компонента (`<Name>/logic/tasks`, `<Widget>/tasks`) или в `src/tasks`, а имя — camelCase и не хук. Подробности — в `.claude/skills/create-task/SKILL.md`.

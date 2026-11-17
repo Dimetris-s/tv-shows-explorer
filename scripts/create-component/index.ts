@@ -10,13 +10,15 @@ const USAGE = `Usage: pnpm gen:component <path> [options]
 Creates a component folder by Simple Architecture rules (docs/architecture/structure.md).
 
   <path>               component folder, e.g. src/app/ShowList/ShowCard or src/components/Alert
-  --presenter          add use<Name>Presenter.ts
+  --presenter          add logic/use<Name>Presenter.ts
   --props              add <Name>.types.ts with <Name>Props (shared by component and presenter)
   --styles             add <Name>.module.css
   --test               add <Name>.test.tsx
   --wrap <ui-file>     wrap a shadcn primitive from src/components/ui/<ui-file>.tsx
                        (component name must match the primitive's export name)
   -h, --help           show this help`;
+
+const SERVICE_DIRS = new Set(['logic', 'tasks', 'hooks', 'types']);
 
 const fail = (message: string): never => {
   console.error(`✖ ${message}\n\n${USAGE}`);
@@ -51,6 +53,14 @@ const name = isApp ? 'App' : path.basename(dir);
 
 if (!dir.startsWith(srcDir + path.sep)) fail(`Component must live inside src/: ${target}`);
 if (!/^[A-Z][A-Za-z0-9]*$/.test(name)) fail(`Component folder must be PascalCase: ${name}`);
+if (
+  path
+    .relative(srcDir, dir)
+    .split(path.sep)
+    .some((part) => SERVICE_DIRS.has(part))
+) {
+  fail('Components never live inside logic/, tasks/, hooks/ or types/.');
+}
 if (fs.existsSync(path.join(dir, `${name}.tsx`))) fail(`Component already exists: ${target}`);
 
 const wrap = values.wrap;
@@ -70,6 +80,7 @@ fs.mkdirSync(dir, { recursive: true });
 const written = Object.entries(files).map(([file, content]) => {
   const filePath = path.join(dir, file);
   if (fs.existsSync(filePath)) fail(`File already exists: ${path.relative(root, filePath)}`);
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, content);
   return filePath;
 });

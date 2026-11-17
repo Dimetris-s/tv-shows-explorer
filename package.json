@@ -12,7 +12,8 @@
     "lint:fix": "vp lint --fix",
     "fmt": "vp fmt",
     "typecheck": "tsc -b",
-    "gen:component": "node scripts/create-component/index.ts"
+    "gen:component": "node scripts/create-component/index.ts",
+    "gen:task": "node scripts/create-task/index.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",

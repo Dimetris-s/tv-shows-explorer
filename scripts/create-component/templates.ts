@@ -22,7 +22,7 @@ export type ${name}Props = ComponentProps<typeof Ui${name}>;
 
 const presenterFile = ({ name, props }: ComponentOptions) =>
   props
-    ? `import type { ${name}Props } from './${name}.types';
+    ? `import type { ${name}Props } from '../${name}.types';
 
 export const use${name}Presenter = ({ title }: ${name}Props) => {
   return { title };
@@ -50,7 +50,7 @@ const componentFile = (options: ComponentOptions) => {
   const imports = [
     styles ? `import styles from './${name}.module.css';` : '',
     props ? `import type { ${name}Props } from './${name}.types';` : '',
-    presenter ? `import { use${name}Presenter } from './use${name}Presenter';` : '',
+    presenter ? `import { use${name}Presenter } from './logic/use${name}Presenter';` : '',
   ].filter(Boolean);
 
   const params = props ? (presenter ? `props: ${name}Props` : `{ title }: ${name}Props`) : '';
@@ -96,7 +96,7 @@ export const renderFiles = (options: ComponentOptions) => {
     'index.ts': barrelFile(options),
   };
   if (hasTypes) files[`${name}.types.ts`] = typesFile(options);
-  if (options.presenter) files[`use${name}Presenter.ts`] = presenterFile(options);
+  if (options.presenter) files[`logic/use${name}Presenter.ts`] = presenterFile(options);
   if (options.styles) files[`${name}.module.css`] = stylesFile();
   if (options.test) files[`${name}.test.tsx`] = testFile(options);
   return files;
