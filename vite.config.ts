@@ -11,6 +11,11 @@ export default defineConfig({
       { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
     ],
   },
+  server: {
+    proxy: {
+      '/api': 'http://localhost:3000',
+    },
+  },
   fmt: {
     singleQuote: true,
     semi: true,
@@ -55,10 +60,19 @@ export default defineConfig({
           'simple-architecture/pure-view': 'error',
           'simple-architecture/encapsulated-imports': 'error',
           'simple-architecture/logic-scope': 'error',
+          'simple-architecture/server-boundary': 'error',
         },
       },
       {
-        files: ['src/**/tasks/**'],
+        files: ['server/src/**/*.ts'],
+        rules: {
+          'max-lines': ['error', { max: 120, skipBlankLines: true, skipComments: true }],
+          'import/no-default-export': 'error',
+          'simple-architecture/server-layers': 'error',
+        },
+      },
+      {
+        files: ['src/**/tasks/**', 'server/src/tasks/**'],
         rules: {
           'simple-architecture/framework-free-tasks': 'error',
           'simple-architecture/task-shape': 'error',

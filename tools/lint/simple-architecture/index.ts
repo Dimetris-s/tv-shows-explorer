@@ -6,6 +6,8 @@ import { frameworkFreeTasks } from './rules/frameworkFreeTasks.ts';
 import { logicScope } from './rules/logicScope.ts';
 import { presenterUsage } from './rules/presenterUsage.ts';
 import { pureView } from './rules/pureView.ts';
+import { serverBoundary } from './rules/serverBoundary.ts';
+import { serverLayers } from './rules/serverLayers.ts';
 import { taskShape } from './rules/taskShape.ts';
 
 const plugin = definePlugin({
@@ -18,6 +20,8 @@ const plugin = definePlugin({
     'logic-scope': logicScope,
     'framework-free-tasks': frameworkFreeTasks,
     'task-shape': taskShape,
+    'server-boundary': serverBoundary,
+    'server-layers': serverLayers,
   },
 });
 

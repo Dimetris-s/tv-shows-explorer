@@ -11,6 +11,7 @@ Creates a task by Simple Architecture rules (docs/architecture/tasks.md).
                     src/app/ShowSearch/logic/tasks/searchShows   task of one component
                     src/app/ShowSearch/tasks/searchShows         shared inside a widget
                     src/tasks/searchShows                        shared across the app
+                    server/src/tasks/searchShows                 server business logic
   --folder        create a folder task: <verb>/<verb>.ts and <verb>/index.ts (re-export only)
   -h, --help      show this help`;
 
@@ -37,6 +38,7 @@ if (!target || positionals.length > 1) fail('Expected exactly one task path.');
 
 const root = process.cwd();
 const srcDir = path.join(root, 'src');
+const serverSrcDir = path.join(root, 'server', 'src');
 const taskPath = path.resolve(root, target ?? '');
 const name = path.basename(taskPath);
 const tasksDir = path.dirname(taskPath);
@@ -47,18 +49,25 @@ const isComponentDir = (dir: string) =>
     path.join(dir, `${dir === path.join(srcDir, 'app') ? 'App' : path.basename(dir)}.tsx`),
   );
 
-if (!taskPath.startsWith(srcDir + path.sep)) fail(`Task must live inside src/: ${target}`);
+const isServer = taskPath.startsWith(serverSrcDir + path.sep);
+if (!isServer && !taskPath.startsWith(srcDir + path.sep)) {
+  fail(`Task must live inside src/ or server/src/: ${target}`);
+}
 if (path.basename(tasksDir) !== 'tasks') fail('A task lives directly in a tasks/ folder.');
 if (!/^[a-z][A-Za-z0-9]*$/.test(name) || /^use[A-Z]/.test(name)) {
   fail(`Task name must be a camelCase verb, not a hook: ${name}`);
 }
 
 const isLogicTasks = path.basename(ownerDir) === 'logic';
-const isValidOwner = isLogicTasks
-  ? isComponentDir(path.dirname(ownerDir))
-  : ownerDir === srcDir || isComponentDir(ownerDir);
+const isValidOwner = isServer
+  ? ownerDir === serverSrcDir
+  : isLogicTasks
+    ? isComponentDir(path.dirname(ownerDir))
+    : ownerDir === srcDir || isComponentDir(ownerDir);
 if (!isValidOwner) {
-  fail('tasks/ belongs to a component (<Name>/logic/tasks, <Widget>/tasks) or to src/tasks.');
+  fail(
+    'tasks/ belongs to a component (<Name>/logic/tasks, <Widget>/tasks), to src/tasks or to server/src/tasks.',
+  );
 }
 if (fs.existsSync(taskPath) || fs.existsSync(`${taskPath}.ts`))
   fail(`Task already exists: ${target}`);
@@ -71,7 +80,8 @@ const taskFile = `export const ${name} = () => {
 const files: Record<string, string> = values.folder
   ? {
       [path.join(taskPath, `${name}.ts`)]: taskFile,
-      [path.join(taskPath, 'index.ts')]: `export { ${name} } from './${name}';\n`,
+      [path.join(taskPath, 'index.ts')]:
+        `export { ${name} } from './${name}${isServer ? '.ts' : ''}';\n`,
     }
   : { [`${taskPath}.ts`]: taskFile };
 

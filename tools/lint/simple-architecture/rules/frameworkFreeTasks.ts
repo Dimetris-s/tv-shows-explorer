@@ -5,10 +5,12 @@ import { defineRule } from 'vite-plus/lint/plugins';
 import { isComponentDir, isInside, resolveSpecifier, srcRootOf } from '../paths.ts';
 
 const REACT_PACKAGE = /^(react|react-dom)(\/|$)|^react-/;
+const SERVER_FRAMEWORK = /^(hono|zod)(\/|$)|^@hono\//;
 const HOOK_MODULE = /^use[A-Z]/;
 
 const forbiddenReason = (specifier: string, resolved: string | null, cwd: string) => {
   if (REACT_PACKAGE.test(specifier)) return 'React';
+  if (SERVER_FRAMEWORK.test(specifier)) return 'HTTP-граница сервера';
   if (!resolved) return null;
   const srcRoot = srcRootOf(cwd);
   if (isInside(resolved, path.join(srcRoot, 'components'))) return 'компоненты';
@@ -21,10 +23,10 @@ const forbiddenReason = (specifier: string, resolved: string | null, cwd: string
 export const frameworkFreeTasks = defineRule({
   meta: {
     type: 'problem',
-    docs: { description: 'Tasks are plain functions independent of React.' },
+    docs: { description: 'Tasks are plain functions independent of React and HTTP frameworks.' },
     messages: {
       forbidden:
-        'Таска не зависит от React: импорт `{{specifier}}` ({{reason}}) запрещён. Связь с React — работа презентера.',
+        'Таска не зависит от фреймворков: импорт `{{specifier}}` ({{reason}}) запрещён. Связь с React — работа презентера, с HTTP — роута.',
     },
   },
   createOnce(context) {
