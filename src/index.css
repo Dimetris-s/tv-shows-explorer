@@ -103,6 +103,10 @@
   html {
     @apply font-sans;
   }
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    @apply cursor-pointer;
+  }
   body {
     @apply bg-background text-body text-foreground antialiased;
   }

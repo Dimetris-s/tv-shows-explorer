@@ -12,7 +12,7 @@ export const FavoriteStar = (props: FavoriteStarProps) => {
       aria-label={label}
       aria-pressed={isFavorite}
       onClick={handleToggle}
-      className="group/star absolute top-2 right-2 flex size-11 cursor-pointer items-center justify-center rounded-full border border-transparent bg-background/80 transition-colors outline-none hover:border-primary hover:bg-card focus-visible:ring-3 focus-visible:ring-ring/50"
+      className="group/star absolute top-2 right-2 flex size-11 items-center justify-center rounded-full border border-transparent bg-background/80 transition-colors outline-none hover:border-primary hover:bg-card focus-visible:ring-3 focus-visible:ring-ring/50"
     >
       <StarIcon
         aria-hidden="true"
