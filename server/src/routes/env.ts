@@ -1,5 +1,13 @@
+import type { User } from '#contract/index.ts';
+
 export type AppEnv = {
   Variables: {
-    clientId: string;
+    user: User | null;
+  };
+};
+
+export type UserEnv = {
+  Variables: {
+    user: User;
   };
 };

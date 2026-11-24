@@ -10,7 +10,7 @@ paths:
 ```
 server/src/
   main.ts       запуск
-  app.ts        Hono-приложение, middleware clientId, onError
+  app.ts        Hono-приложение, middleware session, onError
   routes/       HTTP-граница: zod-схемы входа → таска → JSON/статус
   tasks/        бизнес-логика без hono и zod
   stores/       Entity: объекты в памяти (cache, favorite)
@@ -25,6 +25,7 @@ server/src/
 - DTO TVmaze переводятся в `Show` в сетевой таске. Дальше DTO не уходят.
 - Кеш хранит общие для всех данные. Пользовательское (`isFavorite`) добавляется после чтения из кеша.
 - Ошибки — `{ error: string }`: `400` невалидный вход, `404` нет ресурса, `502` сбой TVmaze.
+- Авторизация: cookie `session` читает и пишет только роут (`sessionCookie.ts`), таски работают с `sessionId` и `email`. Роуты, которым нужен пользователь, подключают `requireUser` и берут `c.var.user`.
 - Импорты внутри сервера — `#…` с расширением `.ts` (`#tasks/searchShows.ts`). Алиас `@/` здесь не работает.
 - Новый тип ответа API — в `contract/` и в его `index.ts`. Доменный тип (то, что лежит в сторах и обрабатывают таски) — в `types/`, контракт его реэкспортирует.
 - Зависимости направлены внутрь (`server-layers`): роуты → таски → сторы → `types/`. `stores/` и `types/` не импортируют `contract/`.

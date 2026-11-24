@@ -4,7 +4,9 @@ import type { FavoriteStarProps } from './FavoriteStar.types';
 import { useFavoriteStarPresenter } from './logic/useFavoriteStarPresenter';
 
 export const FavoriteStar = (props: FavoriteStarProps) => {
-  const { isFavorite, label, handleToggle } = useFavoriteStarPresenter(props);
+  const { isVisible, isFavorite, label, handleToggle } = useFavoriteStarPresenter(props);
+
+  if (!isVisible) return null;
 
   return (
     <button

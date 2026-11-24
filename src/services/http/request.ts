@@ -7,10 +7,15 @@ export type QueryParams = Record<string, string | number | boolean | undefined>;
 export type RequestOptions = {
   signal?: AbortSignal;
   params?: QueryParams;
+  body?: unknown;
   timeoutMs?: number;
 };
 
-export type HttpMethod = 'GET' | 'PUT' | 'DELETE';
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+
+const NO_CONTENT = 204;
+
+const JSON_HEADERS = { Accept: 'application/json', 'Content-Type': 'application/json' };
 
 const buildUrl = (url: string, params: QueryParams = {}) => {
   const result = new URL(url, globalThis.location?.origin);
@@ -25,7 +30,7 @@ export const request = async <T>(
   url: string,
   options: RequestOptions = {},
 ): Promise<T> => {
-  const { signal, params, timeoutMs = DEFAULT_TIMEOUT_MS } = options;
+  const { signal, params, body, timeoutMs = DEFAULT_TIMEOUT_MS } = options;
   const timeoutSignal = AbortSignal.timeout(timeoutMs);
   const requestSignal = signal ? AbortSignal.any([signal, timeoutSignal]) : timeoutSignal;
 
@@ -34,7 +39,8 @@ export const request = async <T>(
     response = await fetch(buildUrl(url, params), {
       method,
       signal: requestSignal,
-      headers: { Accept: 'application/json' },
+      headers: body === undefined ? { Accept: 'application/json' } : JSON_HEADERS,
+      ...(body !== undefined && { body: JSON.stringify(body) }),
     });
   } catch (error) {
     if (signal?.aborted) throw error;
@@ -46,9 +52,14 @@ export const request = async <T>(
     throw new HttpError({ kind: 'http', url, status: response.status });
   }
 
+  if (response.status === NO_CONTENT) {
+    // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+    return undefined as T;
+  }
+
   try {
-    const body: T = await response.json();
-    return body;
+    const data: T = await response.json();
+    return data;
   } catch (error) {
     if (signal?.aborted) throw error;
     throw new HttpError({ kind: 'parse', url, status: response.status, cause: error });

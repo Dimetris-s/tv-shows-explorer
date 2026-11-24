@@ -4,6 +4,9 @@ import type { RequestOptions } from './request';
 export const httpGet = <T>(url: string, options?: RequestOptions) =>
   request<T>('GET', url, options);
 
+export const httpPost = <T>(url: string, options?: RequestOptions) =>
+  request<T>('POST', url, options);
+
 export const httpPut = <T>(url: string, options?: RequestOptions) =>
   request<T>('PUT', url, options);
 

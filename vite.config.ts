@@ -62,6 +62,24 @@ export default defineConfig({
           'simple-architecture/logic-scope': 'error',
           'simple-architecture/server-boundary': 'error',
           'simple-architecture/front-layers': 'error',
+          'no-restricted-imports': [
+            'error',
+            {
+              paths: [
+                {
+                  name: 'wouter',
+                  message:
+                    'Роутер подключён через адаптер: импортируй useNavigate и usePathname из @/services/router.',
+                },
+              ],
+            },
+          ],
+        },
+      },
+      {
+        files: ['src/services/router/**'],
+        rules: {
+          'no-restricted-imports': 'off',
         },
       },
       {

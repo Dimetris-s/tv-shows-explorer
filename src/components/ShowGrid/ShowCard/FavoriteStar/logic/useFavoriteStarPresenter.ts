@@ -2,6 +2,7 @@ import { toast } from 'sonner';
 import { useStore } from 'zustand';
 
 import { favoritesStore, selectIsFavorite } from '@/stores/favoritesStore';
+import { selectIsSignedIn, sessionStore } from '@/stores/sessionStore';
 
 import type { FavoriteStarProps } from '../FavoriteStar.types';
 import { toggleFavorite } from './tasks/toggleFavorite';
@@ -17,6 +18,7 @@ const notifyError = () =>
   });
 
 export const useFavoriteStarPresenter = ({ show }: FavoriteStarProps) => {
+  const isVisible = useStore(sessionStore, selectIsSignedIn);
   const isFavorite = useStore(favoritesStore, (state) => selectIsFavorite(state, show));
 
   const handleToggle = () => {
@@ -24,6 +26,7 @@ export const useFavoriteStarPresenter = ({ show }: FavoriteStarProps) => {
   };
 
   return {
+    isVisible,
     isFavorite,
     label: isFavorite ? 'Убрать из избранного' : 'Добавить в избранное',
     handleToggle,

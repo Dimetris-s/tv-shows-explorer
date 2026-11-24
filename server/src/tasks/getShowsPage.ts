@@ -12,7 +12,7 @@ export type ShowsPageParams = {
   query: string;
   genre: string | null;
   page: number;
-  clientId: string;
+  userId: string | null;
 };
 
 export const getShowsPage = async (params: ShowsPageParams): Promise<ShowsPage> => {
@@ -20,7 +20,7 @@ export const getShowsPage = async (params: ShowsPageParams): Promise<ShowsPage> 
   const filtered = filterShowsByGenre(shows, params.genre);
   const { items, page, pageCount } = paginate(filtered, params.page, PAGE_SIZE);
   return {
-    items: markFavorites(items, params.clientId),
+    items: markFavorites(items, params.userId),
     page,
     pageCount,
     totalCount: shows.length,

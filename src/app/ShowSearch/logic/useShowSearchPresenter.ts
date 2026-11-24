@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useStore } from 'zustand';
 
 import { useQuery } from '@/services/query';
+import { selectEmail, sessionStore } from '@/stores/sessionStore';
 
 import { toSearchView } from './searchView';
 import type { SearchResult } from './searchView';
@@ -15,9 +17,10 @@ export const useShowSearchPresenter = () => {
   const [page, setPage] = useState(1);
   const trimmedQuery = query.trim();
   const searchedQuery = useDebouncedValue(trimmedQuery, DEBOUNCE_MS);
+  const viewer = useStore(sessionStore, selectEmail);
 
   const { data, error, isFetching, refetch } = useQuery<SearchResult>({
-    queryKey: ['shows', searchedQuery, genre, page],
+    queryKey: ['shows', viewer, searchedQuery, genre, page],
     queryFn: async ({ signal }) => ({
       query: searchedQuery,
       page: await fetchShowsPage({ query: searchedQuery, genre, page }, signal),

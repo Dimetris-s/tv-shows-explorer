@@ -51,10 +51,14 @@ import { getShowsPage } from '@tv/server/src/tasks/getShowsPage'; // ❌ нет 
 ```
 server/src/
   main.ts           запуск: serve(app) на порту из PORT (3000)
-  app.ts            Hono-приложение: middleware clientId, роуты под /api, onError
+  app.ts            Hono-приложение: middleware session, роуты под /api, onError
   routes/           HTTP-граница: zod-схемы входа, вызов таски, JSON и статус
     shows.ts
     favorites.ts
+    auth.ts         вход, выход, текущий пользователь
+    session.ts      middleware: cookie session → c.var.user (User | null)
+    requireUser.ts  middleware: без пользователя — 401
+    sessionCookie.ts чтение и запись cookie session
   tasks/            бизнес-логика: функции-глаголы без hono и zod
   stores/           Entity: const cache = {}, const favorite = {}
   types/            доменные типы (Show): ядро, ни от чего не зависит
@@ -73,7 +77,7 @@ server/src/
 ```ts
 shows.get('/', zValidator('query', searchQuery, onInvalid), async (c) => {
   const { q, genre, page } = c.req.valid('query');
-  return c.json(await getShowsPage({ query: q, genre, page, clientId: c.get('clientId') }));
+  return c.json(await getShowsPage({ query: q, genre, page, userId: c.var.user?.email ?? null }));
 });
 ```
 
@@ -86,7 +90,15 @@ shows.get('/', zValidator('query', searchQuery, onInvalid), async (c) => {
 Хранилища — обычные объекты в памяти процесса, по ДЗ без базы данных:
 
 - `cache` — ответы TVmaze: ключ — нормализованный URL запроса, значение — `{ data, storedAt }`, срок жизни 5 минут. Хранятся уже смапленные `Show`, поэтому смена жанра и страницы по тому же запросу не ходит в TVmaze.
-- `favorite` — избранное по анонимному клиенту: `favorite[clientId][showId] = { show, addedAt }`. `clientId` сервер выдаёт в httpOnly cookie, если её нет.
+- `favorite` — избранное по пользователю: `favorite[email][showId] = { show, addedAt }`.
+- `session` — сессии: `session[sessionId] = email`. `sessionId` лежит в httpOnly cookie `session`.
+
+### Авторизация
+
+- Cookie — деталь HTTP: её читает и пишет роут (`sessionCookie.ts`), таски получают и возвращают `sessionId` и `email`.
+- Таска `logIn` нормализует email (правило «один email — один пользователь») и создаёт сессию, `logOut` её удаляет, `findSessionUser` ищет пользователя по `sessionId`.
+- Middleware `session` кладёт пользователя в `c.var.user` для всех роутов, `requireUser` закрывает роуты избранного (`401`). После `requireUser` тип `c.var.user` — `User`, без `null`.
+- Спецификация: `docs/specs/auth.md`.
 
 Таски обращаются к сторам напрямую. Переход на SQLite или Postgres затронет только таски, которые работают со сторами.
 
@@ -94,7 +106,7 @@ shows.get('/', zValidator('query', searchQuery, onInvalid), async (c) => {
 
 ### Флаг избранного
 
-Кеш общий для всех клиентов, поэтому пользовательское состояние в нём не хранится. Таска `getShowsPage` берёт `Show` из кеша и добавляет флаг `isFavorite` для текущего `clientId` уже после: в ответе `ShowListItem = Show & { isFavorite: boolean }`.
+Кеш общий для всех клиентов, поэтому пользовательское состояние в нём не хранится. Таска `getShowsPage` берёт `Show` из кеша и добавляет флаг `isFavorite` для текущего пользователя уже после (у анонима все `false`): в ответе `ShowListItem = Show & { isFavorite: boolean }`.
 
 ## Как фронт ходит в API
 

@@ -18,8 +18,8 @@ src/
   hooks/          # переиспользуемые хуки
   types/          # переиспользуемые типы
   stores/         # Entity: сторы zustand/vanilla
-  services/       # http-клиент; временно useQuery (docs/architecture/temporary.md)
-  lib/            # общие утилиты
+  services/       # http-клиент, адаптер роутера; временно useQuery (docs/architecture/temporary.md)
+  lib/            # общие утилиты, пути маршрутов (paths.ts)
 ```
 
 ## Папка компонента

@@ -3,8 +3,8 @@ import { favorite } from '#stores/favorite.ts';
 
 import { countFavorites } from './countFavorites.ts';
 
-export const removeFavorite = (clientId: string, showId: number): FavoriteToggle => {
-  const own = favorite[clientId];
+export const removeFavorite = (userId: string, showId: number): FavoriteToggle => {
+  const own = favorite[userId];
   if (own) delete own[showId];
-  return { isFavorite: false, ...countFavorites(clientId) };
+  return { isFavorite: false, ...countFavorites(userId) };
 };

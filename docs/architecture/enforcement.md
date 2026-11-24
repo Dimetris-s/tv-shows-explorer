@@ -29,6 +29,8 @@
 | `server-layers`        | нет      | серверные роуты не импортируют `stores/` и `services/` (только таски и контракт); таски не импортируют роуты, `hono` и `zod`; `stores/`, `types/` и `contract/` не импортируют внешние слои (`stores/` и `types/` — и `contract/`)     |
 | `front-layers`         | нет      | направление слоёв фронта: `types/`, `lib/`, `services/` не знают приложения; `stores/` не импортирует таски, сервисы, хуки и компоненты; `src/tasks/` — компоненты и хуки; View (`.tsx`) не импортирует `stores/`, `services/` и таски |
 
+Вне плагина: `no-restricted-imports` запрещает `wouter` везде в `src/`, кроме адаптера `src/services/router/`.
+
 На сервере (`server/src/**`) действуют лимит строк, именованные экспорты, `task-shape`, `framework-free-tasks` (для `tasks/`) и `server-layers`. Правила компонентов и презентеров там не применяются: View на сервере нет.
 
 Автофикс `encapsulated-imports`:

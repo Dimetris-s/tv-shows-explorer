@@ -22,7 +22,7 @@ export const shows = new Hono<AppEnv>().get(
       query: q,
       genre: genre ?? null,
       page,
-      clientId: c.var.clientId,
+      userId: c.var.user?.email ?? null,
     });
     return c.json(result);
   },

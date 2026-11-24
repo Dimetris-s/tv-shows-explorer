@@ -10,16 +10,18 @@ import { removeFavorite } from '#tasks/removeFavorite.ts';
 
 import type { AppEnv } from './env.ts';
 import { onInvalid } from './onInvalid.ts';
+import { requireUser } from './requireUser.ts';
 
 const showParam = z.object({ id: z.coerce.number().int().positive() });
 
 export const favorites = new Hono<AppEnv>()
-  .get('/', (c) => c.json(listFavorites(c.var.clientId)))
-  .get('/count', (c) => c.json(countFavorites(c.var.clientId)))
+  .use(requireUser)
+  .get('/', (c) => c.json(listFavorites(c.var.user.email)))
+  .get('/count', (c) => c.json(countFavorites(c.var.user.email)))
   .put('/:id', zValidator('param', showParam, onInvalid), async (c) => {
-    const result = await addFavorite(c.var.clientId, c.req.valid('param').id);
+    const result = await addFavorite(c.var.user.email, c.req.valid('param').id);
     return result ? c.json(result) : c.json<ApiError>({ error: 'Show not found' }, 404);
   })
   .delete('/:id', zValidator('param', showParam, onInvalid), (c) =>
-    c.json(removeFavorite(c.var.clientId, c.req.valid('param').id)),
+    c.json(removeFavorite(c.var.user.email, c.req.valid('param').id)),
   );
