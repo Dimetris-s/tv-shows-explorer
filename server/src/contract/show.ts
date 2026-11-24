@@ -1,17 +1,6 @@
-export type Show = {
-  id: number;
-  name: string;
-  type: string;
-  genres: string[];
-  isRunning: boolean;
-  premiered: string | null;
-  ended: string | null;
-  runtime: number | null;
-  channel: string | null;
-  rating: number | null;
-  posterUrl: string | null;
-  summary: string;
-};
+import type { Show } from '#types/show.ts';
+
+export type { Show };
 
 export type ShowListItem = Show & { isFavorite: boolean };
 

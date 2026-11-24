@@ -1,4 +1,4 @@
-import type { Show } from '#contract/index.ts';
+import type { Show } from '#types/show.ts';
 import { HttpError, httpGet } from '#services/http/index.ts';
 import { TVMAZE_URL } from '#services/tvmaze/index.ts';
 import type { TvmazeShow } from '#services/tvmaze/index.ts';

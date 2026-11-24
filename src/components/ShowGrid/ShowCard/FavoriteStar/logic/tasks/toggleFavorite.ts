@@ -1,15 +1,16 @@
-import type { FavoriteToggle, ShowListItem } from '@tv/server/contract';
+import type { FavoriteToggle } from '@tv/server/contract';
 
 import { httpDelete, httpPut } from '@/services/http';
-import { favoritesStore } from '@/stores/favoritesStore';
+import { favoritesStore, selectIsFavorite } from '@/stores/favoritesStore';
+import type { FavoriteMark } from '@/stores/favoritesStore';
 
 const setOverride = (showId: number, isFavorite: boolean) =>
   favoritesStore.setState((state) => ({
     overrides: { ...state.overrides, [showId]: isFavorite },
   }));
 
-export const toggleFavorite = async (show: ShowListItem): Promise<FavoriteToggle> => {
-  const wasFavorite = favoritesStore.getState().overrides[show.id] ?? show.isFavorite;
+export const toggleFavorite = async (show: FavoriteMark): Promise<FavoriteToggle> => {
+  const wasFavorite = selectIsFavorite(favoritesStore.getState(), show);
   const url = `/api/favorites/${show.id}`;
   setOverride(show.id, !wasFavorite);
   try {

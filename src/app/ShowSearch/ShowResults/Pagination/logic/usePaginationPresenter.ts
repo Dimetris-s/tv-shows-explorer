@@ -4,7 +4,6 @@ export const usePaginationPresenter = ({ page, pageCount, onPageChange }: Pagina
   const handlePageClick = (target: number) => () => onPageChange(target);
 
   return {
-    // A single page needs no navigation
     isHidden: pageCount <= 1,
     pages: Array.from({ length: pageCount }, (_, index) => ({
       number: index + 1,

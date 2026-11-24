@@ -1,13 +1,13 @@
 import { useStore } from 'zustand';
 
 import { useQuery } from '@/services/query';
-import { favoritesStore } from '@/stores/favoritesStore';
+import { favoritesStore, selectIsFavorite } from '@/stores/favoritesStore';
 
 import type { FavoritesOverlayProps } from '../FavoritesOverlay.types';
 import { fetchFavorites } from './tasks/fetchFavorites';
 
 export const useFavoritesOverlayPresenter = ({ isOpen, onClose }: FavoritesOverlayProps) => {
-  const overrides = useStore(favoritesStore, (state) => state.overrides);
+  const favorites = useStore(favoritesStore);
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ['favorites'],
     queryFn: ({ signal }) => fetchFavorites(signal),
@@ -15,7 +15,7 @@ export const useFavoritesOverlayPresenter = ({ isOpen, onClose }: FavoritesOverl
     staleTime: 0,
   });
 
-  const shows = (data ?? []).filter((show) => overrides[show.id] !== false);
+  const shows = (data ?? []).filter((show) => selectIsFavorite(favorites, show));
 
   const handleOpenChange = (open: boolean) => {
     if (!open) onClose();

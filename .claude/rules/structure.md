@@ -50,4 +50,5 @@ src/
 - Снаружи папки компонента импортируй только саму папку: `@/app/ShowList/ShowCard`, а не `…/ShowCard/ShowCard`.
 - `@/components/ui/*` импортируют только обёртки в `src/components/<Name>/`.
 - Типы ответов API — только `import type { … } from '@tv/server/contract'`. Другие импорты из сервера и относительные пути в `server/` запрещены.
+- Зависимости направлены от отображения к бизнес-логике (`docs/architecture/dependencies.md`, линтер `front-layers`): `types/`, `lib/`, `services/` не знают приложения; `stores/` не импортирует таски, сервисы, хуки и компоненты.
 - Не больше 120 строк на `.ts`/`.tsx` (без пустых строк и комментариев). Упёрся в лимит — скилл `decompose-component`.

@@ -1,7 +1,7 @@
 import { toast } from 'sonner';
 import { useStore } from 'zustand';
 
-import { favoritesStore } from '@/stores/favoritesStore';
+import { favoritesStore, selectIsFavorite } from '@/stores/favoritesStore';
 
 import type { FavoriteStarProps } from '../FavoriteStar.types';
 import { toggleFavorite } from './tasks/toggleFavorite';
@@ -17,8 +17,7 @@ const notifyError = () =>
   });
 
 export const useFavoriteStarPresenter = ({ show }: FavoriteStarProps) => {
-  const override = useStore(favoritesStore, (state) => state.overrides[show.id]);
-  const isFavorite = override ?? show.isFavorite;
+  const isFavorite = useStore(favoritesStore, (state) => selectIsFavorite(state, show));
 
   const handleToggle = () => {
     toggleFavorite(show).then((result) => notifySuccess(show.name, result.isFavorite), notifyError);

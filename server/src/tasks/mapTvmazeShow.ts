@@ -1,4 +1,4 @@
-import type { Show } from '#contract/index.ts';
+import type { Show } from '#types/show.ts';
 import type { TvmazeShow } from '#services/tvmaze/index.ts';
 
 const ENTITIES: Record<string, string> = {

@@ -61,6 +61,7 @@ export default defineConfig({
           'simple-architecture/encapsulated-imports': 'error',
           'simple-architecture/logic-scope': 'error',
           'simple-architecture/server-boundary': 'error',
+          'simple-architecture/front-layers': 'error',
         },
       },
       {
